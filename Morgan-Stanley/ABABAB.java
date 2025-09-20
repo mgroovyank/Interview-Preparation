@@ -102,11 +102,11 @@ public class MorganStanley {
                 synchronized (lock){
                     try{
                         while (!isATurn){
-                            lock.wait(); // wakes up on receive of signal and continues the while loop for second time
+                            lock.wait(); // Releases the lock and suspends the thread, resumes on waking up
                         }
                         System.out.print("A");
                         isATurn = false;
-                        lock.notify(); //signalAll
+                        lock.notify(); //notifyAll
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -120,11 +120,11 @@ public class MorganStanley {
                 synchronized (lock){
                     try{
                         while (isATurn){
-                            lock.wait(); // wakes up on receive of signal and continues the while loop for second time
+                            lock.wait(); // Releases the lock and suspends the thread, resumes on waking up
                         }
                         System.out.print("B");
                         isATurn = true;
-                        lock.notify(); //signalAll
+                        lock.notify(); //notifyAll
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
