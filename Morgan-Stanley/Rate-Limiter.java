@@ -1,3 +1,41 @@
+/**
+Rate Limiter
+IP based
+10 requests/per min
+
+Map<IP, Integer> ipToRequestsMap;
+
+every one minute, I'll update the map
+
+Bucket
+- ip
+- counter
+- lastUpdateTimestamp
+
+while(true){
+1. Find buckets where currentTime - lastUpdateTimetstamp > 1 min
+2. Update the counter = maxLimit for those buckets
+}
+
+1. When you receive an API requests, updated the counter in the bucket for that IP.
+2. if counter exceeds maxLimit, drop the request or maybe store it somewhere to execute when counter resets.
+
+Problem with this approach - its not truly rate limiting. For example 10 requests in last 30 seconds
+from previous window + 10 requests in next 30 seconds of start of new window = 20 requests in one minute.
+
+Also if requests are handled on multiple threads, counter should be thread safe. So we need to make counter thread safe via Atomic Integer or use Redis to store counter and use inc() for thread safe or maybe a lua script.
+
+so we need to actually, look at number of requests in past 1 minute, whenever we get a request to see if that request is not exceeding limit.
+
+Bucket
+- IP
+- List<Timestamp>  of size 10
+
+when I get a request, I remove all the timestamps older than past 1 minute. if there is space, I accept the current request and add it to list as well.
+
+if you have multiple instances of application, counter needs to be externalized in a redis cache.
+**/
+
 package com.mayank.playground;
 
 import java.time.Duration;
