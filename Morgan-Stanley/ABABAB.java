@@ -85,3 +85,59 @@ public class MorganStanley {
     }
 
 }
+
+
+package com.mayank.playground;
+
+public class MorganStanley {
+    /**
+     * wait/notify is the legacy way of doing things
+     */
+    private static final Object lock = new Object();
+    private static boolean isATurn = true;
+
+    static void main() {
+        Thread threadA = new Thread(() -> {
+            for(int i=0;i<3;i++){
+                synchronized (lock){
+                    try{
+                        while (!isATurn){
+                            lock.wait(); // wakes up on receive of signal and continues the while loop for second time
+                        }
+                        System.out.print("A");
+                        isATurn = false;
+                        lock.notify(); //signalAll
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+        });
+
+        Thread threadB = new Thread(() -> {
+            for(int i=0;i<3;i++){
+                synchronized (lock){
+                    try{
+                        while (isATurn){
+                            lock.wait(); // wakes up on receive of signal and continues the while loop for second time
+                        }
+                        System.out.print("B");
+                        isATurn = true;
+                        lock.notify(); //signalAll
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+        });
+
+        threadA.start();
+        threadB.start();
+
+
+    }
+
+}
+
