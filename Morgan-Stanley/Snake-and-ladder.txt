@@ -1,0 +1,61 @@
+So firstly I would try to identify all the entities and then I think entities can be mapped to classes. Entities might be classes, actual classes required can be more as well.
+
+SnakeAndLadderGame
+  - Board
+     - 1D list of 100 cells. 1 is start, 100 is end
+  - On basis of list of snakes and ladders passed, you can mark grid items with snake Head and tail
+  - Box
+    - jump - 0 in case of no snake head/ladder start
+    - playersList - who all players are on that position
+
+- Snakes
+ - headPosition
+ - TailPosition
+
+- Ladders
+ - startPosition
+ - EndPosition
+
+- Players
+  - Id
+  - name
+  - position
+
+- Dice
+  - sides
+  - numberOfRolls - depending on number of dices, so if you have 2 rolls configured, we can have two random numbers and then sum them up.
+  - loadedDice
+
+When you create a snake and ladder game, you can define a list of snakes and list of ladders
+
+
+class Board
+- numberOfCells
+- List<Integer> of size of board ex:100
+- movePlayer(int playerId, int steps)
+- makeJump() - once player moves certain steps, he reaches a cell, make the jump associated with that cell
+- getCell(int cellNumber)
+- Map<Integer, Integer> playerIdToPostion
+
+
+class Player
+- playerId
+- name
+
+Oh okay, so you want to have each player's history of moves(which is basically position or maybe a move class with some more information like from, to, timeInstant, why? - snake bite/ ladder climb)
+so it actually depends on how much information we need about a move.
+
+Also, we can have a doubly linked list, so that we can quickly mode back and forth in a player's history.
+
+ yeah so game class would need a historyClass instance as well.
+
+The History class can have a gameId, map of player's Id and MovesLinkedList
+
+In the game class we need to have a currentTurnClass, which can contain currentPlayerIdx, listOfRollValues in that turn.
+now when the current player makes a roll of dice, if he gets a 6, we increment number of sixes in that turn. and also ask him to roll again. if he gets 3 sixes in a row, he moves 0 steps in that turn.
+if he gets less than 3 sixes, we just sum up roll values in that turn and make a single move. And reset currentPlayerIdx and also listOfRollValues.
+
+but let's say we need to handle bonus turn in case of ladder climb, then when a player rolls, in case he doesn't get a 6, then we just make the move. and don't move to next player, instead ask him to make another move.
+
+
+
