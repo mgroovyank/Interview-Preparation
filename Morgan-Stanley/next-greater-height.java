@@ -11,6 +11,8 @@ Iterate from back and then jump to element bigger than previous element, when pr
 
 2 2 -1 4 -1
 2 1 -1 1 -1
+
+To solve this problem efficiently, we can use a **monotonic stack** — a classic approach for "next greater element" type problems.
 **/
 
 public class Solution {
