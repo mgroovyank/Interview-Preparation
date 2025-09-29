@@ -5,7 +5,7 @@ Bubble Sort
 1 4 5 2 3
 1 4 2 5 3
 1 4 2 3 5
-One element is in its place
+largest element is in its place - I'm shiting the laregst element to right side
 Go till second last element
 1 4 2 3 5
 1 2 4 3 5
@@ -88,7 +88,7 @@ pivot and partition
 int partition(arr, start, end){
    pivot = arr[end];
    lastSmallerElementIdx = start-1;
-   for(j=0;j<end;j++){
+   for(j=start;j<end;j++){
        if(arr[j] > pivot){
               continue;
         }
