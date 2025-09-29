@@ -92,7 +92,7 @@ public class RateLimiter {
             LocalDateTime windowStartTime = counter.getWindowStartTime();
             if(Duration.between(windowStartTime, LocalDateTime.now()).toMinutes() > 1L){
                 // new window started
-                counter.setCount(count + 1);
+                counter.setCount(1);
                 counter.setWindowStartTime(LocalDateTime.now());
             }else{
                 // same window
