@@ -20,3 +20,22 @@ class Solution {
         return minStones;
     }
 }
+
+// Using Priority Queue
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k);
+        for(int i=0;i<n;i++){
+            if(pq.size() == k){
+                if(pq.peek() <= nums[i]){
+                    pq.poll();
+                    pq.add(nums[i]);
+                }
+            }else{
+                pq.add(nums[i]);
+            }   
+        }
+        return pq.peek();
+    }
+}
