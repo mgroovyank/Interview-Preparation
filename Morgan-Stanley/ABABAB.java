@@ -35,7 +35,7 @@ public class MorganStanley {
                      * So even if the field changes, the lambda sees the updated value — safely.
                      */
                     isATurn = false;
-                    condition.signal(); //signalAll
+                    condition.signal(); //signalAll, Also signal doesn't release the lock, you have to release lock manually in finally block
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 } finally {
