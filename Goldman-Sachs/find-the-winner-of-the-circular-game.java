@@ -1,4 +1,15 @@
 // https://leetcode.com/problems/find-the-winner-of-the-circular-game/
+
+class Solution {
+    public int findTheWinner(int n, int k) {
+        int winner = 0;
+        for(int numOfPlayers=2;numOfPlayers<=n;numOfPlayers++){
+            winner = (winner + k)%(numOfPlayers);
+        }
+        return winner+1;
+    }
+}
+
 class Solution {
     public int findTheWinner(int n, int k) {
         // returns index of winner in original array
