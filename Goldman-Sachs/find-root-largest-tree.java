@@ -3,7 +3,9 @@ You are given a forest represented as a map of child → parent relationships. E
 Your task is to find the root of the largest tree (i.e., the tree with the most nodes). If multiple trees have the same largest size, return the smallest root ID among them.
 
 **/
-
+// N = number of nodes, M = number of edges
+// Time Complexity: O(N+M)
+// Space Complexiy: O(N)
 // Disjoint set union rank algorithm pattern
 class Solution {
     private int[] parent;
