@@ -54,7 +54,10 @@ Space Complexity: O(N^2(number of substrings) * N/2(avg length of substring))
 //but that is possible because, I know that my next string to insert/find just has next character change
 // so that means I know the prefix already
 
-/*You are required to complete this method */
+/*
+* Time Complexity: O(N^2)
+* Space Complexity: O(N^2)
+*/
 class GfG {
     public static int countDistinctSubstring(String st) {
         Trie t = new Trie();
