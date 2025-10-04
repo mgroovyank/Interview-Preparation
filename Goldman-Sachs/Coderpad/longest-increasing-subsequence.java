@@ -116,3 +116,64 @@ class Solution {
         return dp[currIdx][prevIdx + 1];
     }
 }
+
+
+// Reduced space complexity to O(N)
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n]; // hold LIS which ends by including element at index i
+        Arrays.fill(dp, 1);
+        int lis = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j] < nums[i]){
+                    dp[i] = Math.max(1 + dp[j], dp[i]);
+                }
+            }
+            lis = Math.max(lis, dp[i]);
+        }
+        return lis;
+    }
+}
+
+// Print LIS
+// Reduced space complexity to O(N)
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n]; // hold LIS which ends by including element at index i
+        int[] prevIdx = new int[n];
+        Arrays.fill(dp, 1);
+        int lis = 0;
+        int lisIdx = -1;
+        for(int i=0;i<n;i++){
+            prevIdx[i] = i;
+            for(int j=0;j<i;j++){
+                int temp = dp[i];
+                if(nums[j] < nums[i]){
+                    dp[i] = Math.max(1 + dp[j], dp[i]);
+                }
+                if(dp[i] > temp){
+                    prevIdx[i] = j;
+                }
+            }
+            if(dp[i] > lis){
+                lisIdx = i;
+            }
+            lis = Math.max(lis, dp[i]);
+        }
+        // Print LIS
+        int[] lisNums = new int[lis];
+        int i = lis - 1;
+        
+        while(lisIdx != prevIdx[lisIdx]){
+            lisNums[i] = nums[lisIdx];
+            lisIdx = prevIdx[lisIdx];
+            i--;
+        }
+        lisNums[i] = nums[lisIdx];
+        System.out.println(Arrays.toString(lisNums));
+        return lis;
+    }
+}
