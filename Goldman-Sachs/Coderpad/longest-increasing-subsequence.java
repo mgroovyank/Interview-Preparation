@@ -62,3 +62,57 @@ class Solution {
     }
 }
 
+// Getting LIS from above solution
+
+class Solution {
+    public List<Integer> getLIS(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n][n + 1];
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        // Fill dp table
+        lis(nums, 0, -1, dp);
+
+        // Reconstruct LIS
+        List<Integer> result = new ArrayList<>();
+        int currIdx = 0, prevIdx = -1;
+
+        while (currIdx < n) {
+            int include = 0;
+            if (prevIdx == -1 || nums[currIdx] > nums[prevIdx]) {
+                include = 1 + dp[currIdx + 1][currIdx + 1];
+            }
+            int exclude = dp[currIdx + 1][prevIdx + 1];
+
+            if (include >= exclude) {
+                result.add(nums[currIdx]);
+                prevIdx = currIdx;
+            }
+            currIdx++;
+        }
+
+        return result;
+    }
+
+    private int lis(int[] nums, int currIdx, int prevIdx, int[][] dp) {
+        if (currIdx == nums.length) {
+            return 0;
+        }
+
+        if (dp[currIdx][prevIdx + 1] != -1) {
+            return dp[currIdx][prevIdx + 1];
+        }
+
+        int include = 0;
+        if (prevIdx == -1 || nums[currIdx] > nums[prevIdx]) {
+            include = 1 + lis(nums, currIdx + 1, currIdx, dp);
+        }
+
+        int exclude = lis(nums, currIdx + 1, prevIdx, dp);
+
+        dp[currIdx][prevIdx + 1] = Math.max(include, exclude);
+        return dp[currIdx][prevIdx + 1];
+    }
+}
