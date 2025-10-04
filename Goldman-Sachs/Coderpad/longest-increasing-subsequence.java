@@ -36,6 +36,7 @@ public class IncreasingSubsequences {
 
 // Using Memoization
 // Time Complexity: O(N^2)
+// Space Complexity: O(N^2) + O(N) - recursion stack
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
