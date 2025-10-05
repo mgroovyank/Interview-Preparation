@@ -77,3 +77,33 @@ class Solution {
 // Time Complexity: O(KN)
 // Space Complexity: O(N)
 
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        int k = lists.length;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val-b.val);
+        for(int i=0;i<k;i++){
+            if(lists[i] != null){
+                pq.add(lists[i]);
+            }
+        }
+        ListNode res = null;
+        ListNode resItr = null;
+        while(!pq.isEmpty()){
+            ListNode temp = pq.poll();
+            if(temp.next != null){
+                pq.add(temp.next);
+            }
+            if(res == null){
+                res = temp;
+                resItr = res;
+                continue;
+            }
+            resItr.next = temp;
+            resItr = resItr.next;
+        }
+        return res;
+
+    }
+
+}
+
