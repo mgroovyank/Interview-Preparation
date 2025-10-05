@@ -74,8 +74,8 @@ class Solution {
 }
 
 
-// Time Complexity: O(KN)
-// Space Complexity: O(N)
+// Time Complexity: O(Nlog(K))
+// Space Complexity: O(K)
 
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
