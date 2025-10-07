@@ -1,6 +1,7 @@
 // https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
 // Time Complexity: O(V) + O(E) + O(V*logV) + O(E*logV)
 // Space Complexity: O(V) + O(E)
+// so in case all nodes are connected to all other nodes, in that case priority queue can contain elements in order of V*V
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
         // code here
