@@ -2,7 +2,7 @@
 // Time Complexity: O(V) + O(E) + O(V*logV) + O(E*logV)
 // Space Complexity: O(V) + O(E)
 // so in case all nodes are connected to all other nodes, in that case priority queue can contain elements in order of V*V
-// Works only when weights are POSITIVE
+// Works only when weights are POSITIVE - it can sometimes lead to infinte loop.
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
         // code here
