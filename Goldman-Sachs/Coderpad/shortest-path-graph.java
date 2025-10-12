@@ -109,3 +109,63 @@ class Solution {
         }
     }
 }
+
+// Using TreeSet for ordering by weight, by implementing suitable Comparator so that remove works fine.
+class Solution {
+    public int[] dijkstra(int V, int[][] edges, int src) {
+        // code here
+        // Adjacency List Representation of graph - V nodes
+        // using List vs Map(when nodes are not numbers or frequent add/del are required)
+        
+        List<List<Edge>> graph = new ArrayList<>();
+        for(int i=0;i<V;i++){
+            graph.add(new ArrayList<>());
+        }
+        int numEdges = edges.length;
+        for(int i=0;i<numEdges;i++){
+            graph.get(edges[i][0]).add(new Edge(edges[i][1], edges[i][2]));
+        }
+        int[] dist = new int[V];
+        for(int i=0;i<V;i++){
+            dist[i] = Integer.MAX_VALUE;
+        }
+        TreeSet<Edge> orderedSet = new TreeSet<>();
+        dist[src] = 0;
+        orderedSet.add(new Edge(src, 0));
+        while(!orderedSet.isEmpty()){
+            Edge currNode = orderedSet.first();
+            orderedSet.remove(currNode);
+            List<Edge> nextNodes = graph.get(currNode.to);
+            for(Edge e: nextNodes){
+                int nextDistance = currNode.weight + e.weight;
+                if(nextDistance < dist[e.to]){
+                    if(dist[e.to] != Integer.MAX_VALUE){
+                        orderedSet.remove(new Edge(e.to, dist[e.to]));
+                    }
+                    dist[e.to] = nextDistance;
+                    orderedSet.add(new Edge(e.to, nextDistance));
+                }
+            }
+        }
+        return dist;
+    }
+    
+    private class Edge implements Comparable<Edge> {
+        private int to;
+        private int weight;
+        
+        private Edge(int to, int weight){
+            this.to = to;
+            this.weight = weight;
+        }
+        
+        public int compareTo(Edge other){
+            if(this.weight != other.weight){
+                return Integer.compare(this.weight, other.weight);
+            }
+            return Integer.compare(this.to, other.to);
+        }
+    }
+    
+    
+}
