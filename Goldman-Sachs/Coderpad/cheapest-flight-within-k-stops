@@ -1,5 +1,5 @@
 // https://leetcode.com/problems/cheapest-flights-within-k-stops/
-// Time Complexity: O(Number of Flights * log(Number of Cities))
+// Time Complexity: O(k * log(Number of Cities))
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         List<List<Flight>> graph = new ArrayList<>();
