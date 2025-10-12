@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/shortest-path-in-binary-matrix/
 // Djikstra's Algorithm
-// Priority Queue is not required here distance remains same for all neighbor nodes
+// Priority Queue is not required here distance remains same for all neighbor nodes. we can save on time complexity
+// Time Complexity: O(N^2)
 
 class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
