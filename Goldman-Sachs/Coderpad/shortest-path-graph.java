@@ -167,6 +167,66 @@ class Solution {
             return Integer.compare(this.to, other.to);
         }
     }
-    
-    
+}
+
+
+// https://www.geeksforgeeks.org/problems/shortest-path-in-weighted-undirected-graph/1
+// Time Complexity: mlogN
+// Space Complexity: O(n+m)
+class Solution {
+    public List<Integer> shortestPath(int n, int m, int edges[][]) {
+        List<List<Edge>> graph = new ArrayList<>();
+        for(int i=0;i<=n;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge: edges){
+            // Add both forward and reverse traversal
+            graph.get(edge[0]).add(new Edge(edge[1], edge[2]));
+            graph.get(edge[1]).add(new Edge(edge[0], edge[2]));
+        }
+        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> a.weight - b.weight);
+        int[] dist = new int[n+1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        int[] prev = new int[n+1];
+        Arrays.fill(prev, -1);
+        dist[1] = 0;
+        pq.add(new Edge(1, 0));
+        while(!pq.isEmpty()){
+            Edge currNode = pq.poll();
+            List<Edge> nextNodes = graph.get(currNode.to);
+            for(Edge e: nextNodes){
+                int nextDistance = currNode.weight + e.weight;
+                if(nextDistance < dist[e.to]){
+                    dist[e.to] = nextDistance;
+                    prev[e.to] = currNode.to;
+                    pq.add(new Edge(e.to, nextDistance));
+                }
+            }
+        }
+        List<Integer> shortestPath = new ArrayList<>();
+        if(dist[n] == Integer.MAX_VALUE){
+            shortestPath.add(-1);
+            return shortestPath;
+        }
+        int i=n;
+        while(i != 1){
+            shortestPath.add(i);
+            i = prev[i];
+        }
+        shortestPath.add(i);
+        shortestPath.add(dist[n]);
+        Collections.reverse(shortestPath);
+        return shortestPath;
+        
+    }
+    private class Edge{
+        int to;
+        int weight;
+        
+        private Edge(int to, int weight) {
+            this.to = to;
+            this.weight = weight;
+        }
+        
+    }
 }
