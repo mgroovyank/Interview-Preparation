@@ -111,6 +111,7 @@ class Solution {
 }
 
 // Using TreeSet for ordering by weight, by implementing suitable Comparator so that remove works fine.
+// remove is also logarithmic so there wouldn't  be much difference in Time Complexity here. Priority Queue is mostly better for simplicity
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
         // code here
