@@ -1,0 +1,50 @@
+// https://leetcode.com/problems/cheapest-flights-within-k-stops/
+// Time Complexity: O(Number of Flights * log(Number of Cities))
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Flight>> graph = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] flight: flights){
+            graph.get(flight[0]).add(new Flight(flight[1], flight[2], 0));
+        }
+        // taking less stops earlier gives me more options later
+        // not mandatory to use priority queue
+        // PriorityQueue<Flight> pq = new PriorityQueue<>((a, b) -> a.stops - b.stops);
+        Deque<Flight> pq = new ArrayDeque<>();
+        int[] cheapest = new int[n];
+        Arrays.fill(cheapest, Integer.MAX_VALUE);
+        cheapest[src] = 0;
+        pq.add(new Flight(src, 0, 0));
+        while(!pq.isEmpty()){
+            Flight currentFlight = pq.poll();
+            List<Flight> nextFlights = graph.get(currentFlight.to);
+            for(Flight nextFlight: nextFlights){
+                int nextPrice = currentFlight.price + nextFlight.price;
+                // no point of reaching a city with more stops unless there is cheaper price
+                if(nextPrice < cheapest[nextFlight.to] && currentFlight.stops<=k){
+                    cheapest[nextFlight.to] = nextPrice;
+                    pq.add(new Flight(nextFlight.to, nextPrice, currentFlight.stops+1));
+                }
+            }
+        }
+        if(cheapest[dst] == Integer.MAX_VALUE){
+            return -1;
+        }
+        return cheapest[dst];
+    }
+    private class Flight {
+        private int to;
+        private int price;
+        private int stops;
+        
+        private Flight(int to, int price, int stops){
+            this.to = to;
+            this.price = price;
+            this.stops = stops;
+        }
+
+    }
+
+}
