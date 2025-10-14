@@ -4,3 +4,4 @@
 4. What is memoization? Write code for it.
 5. Difference between let/var/const?
 6. What is deep cloning in Javascript. Write code for it.
+7. What are micro and macro events in javascript event loop?
