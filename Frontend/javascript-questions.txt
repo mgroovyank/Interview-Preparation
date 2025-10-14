@@ -1,0 +1,6 @@
+1. What is Hoisting in Javascript?
+2. What is Temporal Dead Zone?
+3. What is Currying?
+4. What is memoization? Write code for it.
+5. Difference between let/var/const?
+6. What is deep cloning in Javascript. Write code for it.
