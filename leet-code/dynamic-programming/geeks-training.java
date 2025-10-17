@@ -1,5 +1,5 @@
 // https://www.geeksforgeeks.org/problems/geeks-training/0
-// Time Complexity: O(N*4) * 3
+// Time Complexity: O(N*4 * 3)
 // Space Complexity: O(N*4) + O(N)
 
 // Top Down Approach
