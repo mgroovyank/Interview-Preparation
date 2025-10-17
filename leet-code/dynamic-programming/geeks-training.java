@@ -52,3 +52,31 @@ class Solution {
         return dp[i][last] = maxi;
     }
 }
+
+// Bottom Up Approach
+// Same time and space complexity, but looks cleaner
+class Solution {
+    public int maximumPoints(int arr[][]) {
+        // recursion - bottom up approach
+        // bottom up approach is iterative in nature
+        int numDays = arr.length;
+        int[][] dp = new int[numDays][3];
+        dp[0][0] = arr[0][0];
+        dp[0][1] = arr[0][1];
+        dp[0][2] = arr[0][2];
+        for(int day=1;day<numDays;day++){
+            for(int task=0;task<3;task++){
+                // do task on day
+                // calculate maximumPoints if I do task on day
+                if(task == 0){
+                    dp[day][task] = arr[day][task] + Math.max(dp[day-1][1], dp[day-1][2]);
+                }else if(task == 1){
+                    dp[day][task] = arr[day][task] + Math.max(dp[day-1][0], dp[day-1][2]);
+                }else {
+                    dp[day][task] = arr[day][task] + Math.max(dp[day-1][0], dp[day-1][1]);
+                }
+            }
+        }
+        return Math.max(dp[numDays-1][0], Math.max(dp[numDays-1][1], dp[numDays-1][2]));
+    }
+}
