@@ -53,8 +53,8 @@ class Solution {
     }
 }
 
-// Bottom Up Approach
-// Same time and space complexity, but looks cleaner
+// Bottom Up Approach - Tabulation
+// Same time and space complexity, but looks cleaner and reduced stack memory
 class Solution {
     public int maximumPoints(int arr[][]) {
         // recursion - bottom up approach
