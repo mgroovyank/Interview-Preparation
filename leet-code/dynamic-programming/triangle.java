@@ -82,3 +82,31 @@ class Solution {
     }
 }
 
+// Space Optimization
+// Space Complexity: O(N)
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        // Tabulation - Bottom Up
+        int rows = triangle.size();
+        int[] dp = new int[rows];
+
+        for(int j=0;j<rows;j++){
+            dp[j] = triangle.get(rows-1).get(j);
+        }
+        for(int i=rows-2;i>=0;i--){
+            int[] curr = new int[rows];
+            Arrays.fill(curr, -1);
+            for(int j=i;j>=0;j--){
+                int dg = Integer.MAX_VALUE;
+                if(j+1<=i+1){
+                    dg = dp[j+1];
+                }
+                int d = dp[j];
+                curr[j] = triangle.get(i).get(j) + Math.min(d, dg);
+            }
+            dp = curr;
+        }
+        return dp[0];
+    }
+}
+
