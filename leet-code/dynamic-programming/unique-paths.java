@@ -22,7 +22,7 @@ class Solution {
 
 
 // Time Complexity: O(M*N*1)
-// Space Complexity: O(M*N)
+// Space Complexity: O(M*N) + (M+N)
 class Solution {
     public int uniquePaths(int m, int n) {
         // Recursion - Top Down Approach
