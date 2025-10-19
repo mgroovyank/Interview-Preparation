@@ -82,3 +82,37 @@ class Solution {
         return dp[m-1][n-1];
     }
 }
+
+// Time Complexity: O(M*N*1)
+// Space Complexity: O(N*2)
+class Solution {
+    public int uniquePaths(int m, int n) {
+        // Tabulation, Bottom Up Approach
+        // Space Optimization
+        int[] prev = new int[n];
+        Arrays.fill(prev, 0);
+        // iteration on all states reached via recursion
+        for(int i=0;i<m;i++){
+            int[] temp = new int[n];
+            Arrays.fill(temp, -1);
+            for(int j=0;j<n;j++){
+                // "do stuff" on indexes code
+                if(i==0 && j==0){
+                    temp[j] = 1;
+                    continue;
+                }
+                int up = 0;
+                int left = 0;
+                if(i-1 >= 0){
+                    up = prev[j];
+                }
+                if(j-1>=0){
+                    left = temp[j-1];
+                }
+                temp[j] = up + left;
+            }
+            prev = temp;
+        }
+        return prev[n-1];
+    }
+}
