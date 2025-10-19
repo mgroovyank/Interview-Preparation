@@ -116,3 +116,35 @@ class Solution {
         return prev[n-1];
     }
 }
+
+// Time Complexity: O(Min(M,N))
+class Solution {
+    public int uniquePaths(int m, int n) {
+        // To reach end, I have to move m-1 rows downward and n-1 columns righwards
+        // mandatorily
+        // So Total Number of Moves = m-1 + n-1 = m + n - 2
+        // ans = choose m-1 downward moves out of total moves
+        // return combinations(m+n-2, Math.min(m-1, n-1)); // 58,8
+        return combinations(m+n-2, m-1); // 58,8
+    }
+    
+    // n choose k
+    // (n*(n-1)*(n-2) .... (n-k+1)) / (k*(k-1)*(k-2) ..... 1)
+    private int combinations(int n, int k){
+        if(k<0 || k>n){
+            return 0;
+        }
+        if(k == 0 || k==n){
+            return 1;
+        }
+        // not required if I'm using min
+        if(k>n/2){
+            k = n-k;
+        }
+        long res = 1;
+        for(int i=1;i<=k;i++){
+            res = res * (n-i+1)/i; // n/1 , n-1/2, n-2/3 ....... n-k/k-1,n-k+1/k
+        }
+        return (int)res;
+    }
+}
