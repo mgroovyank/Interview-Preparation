@@ -56,3 +56,29 @@ class Solution {
     }
 }
 
+// Tabulation - Bottom Up
+// Time Complexity: O(N^2)
+// Space Complexity: O(N^2)
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        // Tabulation - Bottom Up
+        int rows = triangle.size();
+        int[][] dp = new int[rows][rows];
+
+        for(int j=0;j<rows;j++){
+            dp[rows-1][j] = triangle.get(rows-1).get(j);
+        }
+        for(int i=rows-2;i>=0;i--){
+            for(int j=i;j>=0;j--){
+                int dg = Integer.MAX_VALUE;
+                if(j+1<=i+1){
+                    dg = dp[i+1][j+1];
+                }
+                int d = dp[i+1][j];
+                dp[i][j] = triangle.get(i).get(j) + Math.min(d, dg);
+            }
+        }
+        return dp[0][0];
+    }
+}
+
