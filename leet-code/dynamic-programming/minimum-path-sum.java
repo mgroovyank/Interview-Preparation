@@ -53,3 +53,59 @@ class Solution {
         }
     }
 }
+
+// Recursion - Top Down + Memoization
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int[][] dp = new int[rows][cols];
+        for(int i=0;i<rows;i++){
+            Arrays.fill(dp[i], -1);
+        }
+        return minPathSumTo(grid, rows-1, cols-1, dp);
+    }
+
+    private int minPathSumTo(int[][] grid, int i, int j, int[][] dp){
+        // base case
+        if(i==0 && j==0){
+            return grid[0][0];
+        }
+        if(i<0 || j<0){
+            return Integer.MAX_VALUE;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        return dp[i][j] = grid[i][j] + Math.min(minPathSumTo(grid, i-1, j, dp), minPathSumTo(grid, i, j-1, dp));
+    }
+}
+
+// Tabulation - Bottom Up
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int[][] dp = new int[rows][cols];
+        dp[0][0] = grid[0][0];
+        // go over all recursion states
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(i==0 && j==0){
+                    dp[0][0] = grid[0][0];
+                    continue;
+                }
+                int upCost = Integer.MAX_VALUE;
+                int leftCost = Integer.MAX_VALUE;
+                if(i-1>=0){
+                    upCost = grid[i][j] + dp[i-1][j];
+                }
+                if(j-1>=0){
+                    leftCost = grid[i][j] + dp[i][j-1];
+                }
+                dp[i][j] = Math.min(upCost, leftCost);
+            }
+        }
+        return dp[rows-1][cols-1];
+    }
+}
