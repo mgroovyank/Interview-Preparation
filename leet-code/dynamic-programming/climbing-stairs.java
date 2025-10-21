@@ -49,3 +49,5 @@ class Solution {
         return second;
     }
 }
+
+// There is another approach using Matrix Exponentiation - O(logN)
