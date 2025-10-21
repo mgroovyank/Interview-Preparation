@@ -107,3 +107,43 @@ class Solution {
         return dp[n-1];
     }
 }
+
+// Space Optimized
+class Solution {
+    public int rob(int[] nums) {
+        // if you pick last num - then you can't pick first one also
+        // if you don't pick last num - then it is same problem as house robber
+        int n = nums.length;
+        if(n == 1){
+            return nums[0];
+        }
+        int[] temp1 = new int[n-1];
+        int[] temp2 = new int[n-1];
+        for(int i=0;i<n;i++){
+            if(i < n-1){
+                temp1[i] = nums[i];
+            }
+            if(i > 0){
+                temp2[i-1] = nums[i];
+            }
+        }
+        int withoutLastNum = robHelper(temp1);
+        int withLastNum = robHelper(temp2);
+        return Math.max(withoutLastNum, withLastNum);
+    }
+    private int robHelper(int arr[]){
+        int n = arr.length;
+        if(n == 1){
+            return arr[0];
+        }
+        int[] dp = new int[n];
+        int first = arr[0];
+        int second = Math.max(arr[0], arr[1]);
+        for(int i=2;i<n;i++){
+            int temp = Math.max(second, first + arr[i]);
+            first = second;
+            second = temp;
+        }
+        return second;
+    }
+}
