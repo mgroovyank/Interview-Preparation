@@ -40,3 +40,51 @@ class Solution {
         return maxi;
     }
 }
+
+// Time Complexity: O(n*m*m)
+// Space Complexity: O(n*m*m)
+class Solution {
+    public int cherryPickup(int[][] grid) {
+        // Top Down Approach - Fixed Starting Point, Variable Ending Point
+        // Way 1 - Move R1 first across grid -> get max Path -> mark zero on that path -> move R2 similarly
+        // Way 1 - little more complex due to tracking of path
+        // Way 2 - move both together
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][][] dp = new int[n][m][m];
+        for(int[][] dp1: dp){
+            for(int[] dp2: dp1){
+                Arrays.fill(dp2, -1);
+            }
+        }
+        return maxCherryPickupFrom(grid, 0, 0, m-1, dp);
+    }
+
+    private int maxCherryPickupFrom(int[][] grid, int i12, int j1, int j2, int[][][] dp){
+        // base case
+        if(j1<0 || j2<0 || j1>=grid[0].length || j2>=grid[0].length){
+            return Integer.MIN_VALUE;
+        }
+        if(i12 == grid.length-1){
+            if(j1 == j2){
+                return grid[i12][j1];
+            }
+            return grid[i12][j1] + grid[i12][j2];
+        }
+        if(dp[i12][j1][j2] != -1){
+            return dp[i12][j1][j2];
+        }
+        int[] delta = new int[]{-1, 0, 1};
+        int maxi = Integer.MIN_VALUE;
+        for(int d1:delta){
+            for(int d2:delta){
+                int temp = grid[i12][j1] + grid[i12][j2];
+                if(j1 == j2){
+                    temp = grid[i12][j1];
+                }
+                maxi = Math.max(maxi, temp + maxCherryPickupFrom(grid, i12+1, j1+d1, j2+d2, dp));
+            }
+        }
+        return dp[i12][j1][j2] = maxi;
+    }
+}
