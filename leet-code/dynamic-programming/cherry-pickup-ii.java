@@ -133,3 +133,45 @@ class Solution {
         return dp[0][0][m-1];
     }
 }
+
+// Space Optimized
+class Solution {
+    public int cherryPickup(int[][] grid) {
+        // 3D DP space optimized to 2D dp
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][] dp = new int[m][m];
+        for(int i12=n-1;i12>=0;i12--){
+            int[][] curr = new int[m][m];
+            for(int j1=0;j1<m;j1++){
+                for(int j2=0;j2<m;j2++){
+                    if(i12 == grid.length-1){
+                        if(j1 == j2){
+                            curr[j1][j2] = grid[i12][j1];
+                        }else {
+                            curr[j1][j2] =  grid[i12][j1] + grid[i12][j2];
+                        }
+                        continue;
+                    }
+                    int[] delta = new int[]{-1, 0, 1};
+                    int maxi = Integer.MIN_VALUE;
+                    for(int d1:delta){
+                        for(int d2:delta){
+                            if(j1+d1<0 || j2+d2<0 || j1+d1>=m || j2+d2>=m){
+                                continue;
+                            }
+                            int temp = grid[i12][j1] + grid[i12][j2];
+                            if(j1 == j2){
+                                temp = grid[i12][j1];
+                            }
+                            maxi = Math.max(maxi, temp + dp[j1+d1][j2+d2]);
+                        }
+                    }
+                    curr[j1][j2] = maxi;
+                }
+            }
+            dp = curr;
+        }
+        return dp[0][m-1];
+    }
+}
