@@ -92,3 +92,39 @@ class Solution {
         return maxi;
     }
 }
+
+
+// Time Complexity: O(n*m*3)
+// Space Complexity: O(m)
+class Solution {
+    public int maximumPath(int[][] mat) {
+        // Tabulation - Bottom Up Approach
+        // Space Optimization
+        int n = mat.length;
+        int m = mat[0].length;
+        int[] dp = new int[m];
+        for(int i=n-1;i>=0;i--){
+            int[] curr = new int[m];
+            Arrays.fill(curr, Integer.MIN_VALUE);
+            for(int j=0;j<m;j++){
+                if(i == n-1){
+                    curr[j] = mat[i][j];
+                    continue;
+                }
+                int[] options = new int[]{-1, 0, 1};
+                for(int option: options) {
+                    if(j+option <0 || j+option>=m){
+                        continue;
+                    }
+                    curr[j] = Math.max(curr[j], mat[i][j] + dp[j+option]);
+                }
+            }
+            dp = curr;
+        }
+        int maxi = Integer.MIN_VALUE;
+        for(int j=0;j<m;j++){
+            maxi = Math.max(maxi, dp[j]);
+        }
+        return maxi;
+    }
+}
