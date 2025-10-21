@@ -60,3 +60,35 @@ class Solution {
             maximumPathFrom(mat, i+1, j+1, dp)));
     }
 }
+
+
+// Time Complexity: O(n*m*3)
+// Space Complexity: O(n*m)
+class Solution {
+    public int maximumPath(int[][] mat) {
+        // Tabulation - Bottom Up Approach
+        int n = mat.length;
+        int m = mat[0].length;
+        int[][] dp = new int[n][m];
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<m;j++){
+                if(i == n-1){
+                    dp[i][j] = mat[i][j];
+                    continue;
+                }
+                int[] options = new int[]{-1, 0, 1};
+                for(int option: options) {
+                    if(j+option <0 || j+option>=m){
+                        continue;
+                    }
+                    dp[i][j] = Math.max(dp[i][j], mat[i][j] + dp[i+1][j+option]);
+                }
+            }
+        }
+        int maxi = Integer.MIN_VALUE;
+        for(int j=0;j<m;j++){
+            maxi = Math.max(maxi, dp[0][j]);
+        }
+        return maxi;
+    }
+}
