@@ -93,4 +93,33 @@ class Solution {
 
 }
 
+// Space Optimized
+class Solution {
+    static int knapsack(int W, int val[], int wt[]) {
+        // Recursion - Top Down Approach
+        // f(i,w) = Math.max(val[i] + f(i-1, w-wt[i]), f(i-1, w))
+        int n = val.length;
+        int[] prev = new int[W+1];
+        for(int w=0;w<=W;w++){
+            if(w < wt[0]){
+                prev[w] = 0;
+            }else{
+                prev[w] = val[0];
+            }
+        }
+        for(int i=1;i<n;i++){
+            int[] curr = new int[W+1];
+            for(int w=0;w<=W;w++){
+                int notTake = prev[w];
+                int take = Integer.MIN_VALUE;
+                if(w >= wt[i]){
+                    take = val[i] + prev[w-wt[i]];
+                }
+                curr[w] = Math.max(take, notTake);
+            }
+            prev = curr;
+        }
+        return prev[W];
+    }
 
+}
