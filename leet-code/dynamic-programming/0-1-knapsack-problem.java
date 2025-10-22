@@ -94,6 +94,7 @@ class Solution {
 }
 
 // Space Optimized
+// Space Complexity: O(W*2)
 class Solution {
     static int knapsack(int W, int val[], int wt[]) {
         // Recursion - Top Down Approach
@@ -118,6 +119,35 @@ class Solution {
                 curr[w] = Math.max(take, notTake);
             }
             prev = curr;
+        }
+        return prev[W];
+    }
+
+}
+
+// Space Complexity: O(W)
+class Solution {
+    static int knapsack(int W, int val[], int wt[]) {
+        // Recursion - Top Down Approach
+        // f(i,w) = Math.max(val[i] + f(i-1, w-wt[i]), f(i-1, w))
+        int n = val.length;
+        int[] prev = new int[W+1];
+        for(int w=0;w<=W;w++){
+            if(w < wt[0]){
+                prev[w] = 0;
+            }else{
+                prev[w] = val[0];
+            }
+        }
+        for(int i=1;i<n;i++){
+            for(int w=W;w>=0;w--){
+                int notTake = prev[w];
+                int take = Integer.MIN_VALUE;
+                if(w >= wt[i]){
+                    take = val[i] + prev[w-wt[i]];
+                }
+                prev[w] = Math.max(take, notTake);
+            }
         }
         return prev[W];
     }
