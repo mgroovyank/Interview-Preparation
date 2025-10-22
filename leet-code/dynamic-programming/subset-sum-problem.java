@@ -70,3 +70,39 @@ class Solution {
         return dp[i][sum] = 0;
     }
 }
+
+// Tabulation
+// Time Complexity: O(n*sum)
+// Space Complexity: O(n*sum)
+class Solution {
+
+    static Boolean isSubsetSum(int arr[], int sum) {
+        // Reduce recursion stack space - Bottom Up Approach
+        // Tabulation
+        int n = arr.length;
+        int[][] dp = new int[n][sum+1];
+        // sum is zero, always true
+        for(int i=0;i<n;i++){
+            dp[i][0] = 1;
+        }
+        // i=0, then 1 if arr[0]==sum
+        for(int s=1;s<=sum;s++){
+            dp[0][s] = (s == arr[0]) ? 1 : 0;
+        }
+        for(int i=1;i<n;i++) {
+            for(int s=1;s<=sum;s++) {
+                int noTake = dp[i-1][s];
+                int take = 0;
+                if(s >= arr[i]){
+                    take = dp[i-1][s-arr[i]];
+                }
+                if(noTake==1 || take==1){
+                    dp[i][s] = 1;
+                }else{
+                    dp[i][s] = 0;
+                }   
+            }
+        }
+        return dp[n-1][sum] == 1;
+    }
+}
