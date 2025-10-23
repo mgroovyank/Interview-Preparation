@@ -45,3 +45,40 @@ class Solution {
         return dp[i][amount] = Math.min(take, notTake);
     }
 }
+
+// Tabulation
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // Infinite supplies
+        // Tabulation - Bottom Up Approach
+        int n = coins.length;
+        int[][] dp = new int[n][amount+1];
+        // base case
+        for(int a=0;a<=amount;a++){
+            if(a % coins[0] == 0){
+                dp[0][a] = a / coins[0];
+            }else{
+                dp[0][a] = Integer.MAX_VALUE;
+            }
+        }
+        // do stuff
+        for(int i=1;i<n;i++){
+            for(int a=0;a<=amount;a++){
+                int notTake = dp[i-1][a];
+                int take = Integer.MAX_VALUE;
+                if(a >= coins[i]){
+                    int temp = dp[i][a - coins[i]];
+                    if(temp != Integer.MAX_VALUE){
+                        take = 1 + temp;
+                    }
+                }
+                dp[i][a] = Math.min(take, notTake);
+            }
+        }
+        int ans = dp[n-1][amount];
+        if(ans == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ans;
+    }
+}
