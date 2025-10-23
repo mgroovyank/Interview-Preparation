@@ -84,7 +84,7 @@ class Solution {
 }
 
 // Space Optimization
-// Space Complexity: O(amount)
+// Space Complexity: O(amount*2)
 class Solution {
     public int coinChange(int[] coins, int amount) {
         // Infinite supplies
@@ -117,6 +117,45 @@ class Solution {
             prev = curr;
         }
         int ans = prev[amount];
+        if(ans == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ans;
+    }
+}
+
+// Further Space Optimization
+// Space Complexity: O(amount)
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // Infinite supplies
+        // Tabulation - Bottom Up Approach
+        // Space Optimization
+        int n = coins.length;
+        int[] curr = new int[amount+1];
+        // base case
+        for(int a=0;a<=amount;a++){
+            if(a % coins[0] == 0){
+                curr[a] = a / coins[0];
+            }else{
+                curr[a] = Integer.MAX_VALUE;
+            }
+        }
+        // do stuff
+        for(int i=1;i<n;i++){
+            for(int a=0;a<=amount;a++){
+                int notTake = curr[a]; // I just need current Idx value from prev, I use that first and then modify curr
+                int take = Integer.MAX_VALUE;
+                if(a >= coins[i]){
+                    int temp = curr[a - coins[i]];
+                    if(temp != Integer.MAX_VALUE){
+                        take = 1 + temp;
+                    }
+                }
+                curr[a] = Math.min(take, notTake);
+            }
+        }
+        int ans = curr[amount];
         if(ans == Integer.MAX_VALUE){
             return -1;
         }
