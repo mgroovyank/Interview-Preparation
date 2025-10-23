@@ -82,3 +82,44 @@ class Solution {
         return ans;
     }
 }
+
+// Space Optimization
+// Space Complexity: O(amount)
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // Infinite supplies
+        // Tabulation - Bottom Up Approach
+        // Space Optimization
+        int n = coins.length;
+        int[] prev = new int[amount+1];
+        // base case
+        for(int a=0;a<=amount;a++){
+            if(a % coins[0] == 0){
+                prev[a] = a / coins[0];
+            }else{
+                prev[a] = Integer.MAX_VALUE;
+            }
+        }
+        // do stuff
+        for(int i=1;i<n;i++){
+            int[] curr = new int[amount+1];
+            for(int a=0;a<=amount;a++){
+                int notTake = prev[a];
+                int take = Integer.MAX_VALUE;
+                if(a >= coins[i]){
+                    int temp = curr[a - coins[i]];
+                    if(temp != Integer.MAX_VALUE){
+                        take = 1 + temp;
+                    }
+                }
+                curr[a] = Math.min(take, notTake);
+            }
+            prev = curr;
+        }
+        int ans = prev[amount];
+        if(ans == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ans;
+    }
+}
