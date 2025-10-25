@@ -1,7 +1,7 @@
 // https://leetcode.com/problems/longest-common-subsequence/
 
 // Time Complexity: O(2^(m+n))
-// Space Complexity: O(Min(m,n))
+// Space Complexity: O(N+M)
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         // compare subsequences on the go
@@ -23,7 +23,7 @@ class Solution {
 }
 
 // Time Complexity: O(M * N)
-// Space Complexity: O(M*N) + O(Min(M,N))
+// Space Complexity: O(M*N) + O(N+M)
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         // compare subsequences on the go
