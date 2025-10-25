@@ -2,6 +2,7 @@
 
 // Time Complexity: Exponential
 // Space Complexity: O(N)
+// f(i, N) = Max(f(i-1, N), val[i] + f(i, N-(i+1)))
 class Solution {
     static int knapSack(int val[], int wt[], int capacity) {
         int n = val.length;
