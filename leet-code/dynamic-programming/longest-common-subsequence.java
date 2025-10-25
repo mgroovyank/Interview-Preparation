@@ -80,3 +80,31 @@ class Solution {
         return dp[l1][l2];
     }
 }
+
+// Space Optimization
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        // compare subsequences on the go
+        // Bottom Up Approach - Tabulation
+        // Space Optimization
+        int l1 = text1.length();
+        int l2 = text2.length();
+        int[] prev = new int[l2+1];
+        // base case
+        for(int i2=0;i2<l2+1;i2++){
+            prev[i2] = 0;
+        }
+        for(int i1=1;i1<l1+1;i1++){
+            int[] curr = new int[l2+1];
+            for(int i2=1;i2<l2+1;i2++){
+                if(text1.charAt(i1-1) == text2.charAt(i2-1)){
+                    curr[i2] = 1 + prev[i2-1];
+                }else {
+                    curr[i2] = Math.max(prev[i2], curr[i2-1]); 
+                }
+            }
+            prev = curr;
+        }
+        return prev[l2];
+    }
+}
