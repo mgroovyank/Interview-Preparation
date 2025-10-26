@@ -124,3 +124,33 @@ class Solution {
         return dp[w1][w2];
     }
 }
+
+// Space Optimized
+class Solution {
+    public int minDistance(String word1, String word2) {
+        // Tabulation
+        int w1 = word1.length();
+        int w2 = word2.length();
+        int[] prev = new int[w2+1];
+        // base case
+        for(int j=0;j<=w2;j++){
+            prev[j] = j;
+        }
+        for(int i=1;i<=w1;i++){
+            int[] curr = new int[w2+1];
+            curr[0] = i;
+            for(int j=1;j<=w2;j++){
+                if(word1.charAt(i-1) == word2.charAt(j-1)){
+                    curr[j] = prev[j-1];
+                }else {
+                    curr[j] = 1 + Math.min(prev[j], //delete
+                        Math.min(
+                            prev[j-1], // replace
+                            curr[j-1])); // insert
+                }
+            }
+            prev = curr;
+        }
+        return prev[w2];
+    }
+}
