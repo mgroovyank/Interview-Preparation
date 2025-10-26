@@ -154,3 +154,4 @@ class Solution {
         return prev[w2];
     }
 }
+// Can't be space optmized further as I'm dependent on both curr and prev
