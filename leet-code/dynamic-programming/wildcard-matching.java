@@ -175,3 +175,44 @@ class Solution {
         return dp[sl][pl]==1 ? true : false;
     }
 }
+
+// 1D Array Space Optimized
+// Eliminate reference sharing bug
+class Solution {
+    public boolean isMatch(String s, String p) {
+        // Tabulation - Bottom Up Approach
+        // Space Optimize
+        int sl = s.length();
+        int pl = p.length();
+        int[] prev = new int[pl+1];
+        // base case
+        prev[0] = 1;
+        for(int j=1;j<=pl;j++){
+            prev[j] = 1;
+            for(int k=1;k<=j;k++){
+                if(p.charAt(k-1) != '*'){ // even chars are a wildcard character
+                    prev[j] = 0;
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=sl;i++){
+            int[] curr = new int[pl+1];
+            curr[0] = 0;
+            for(int j=1;j<=pl;j++){
+                char sc = s.charAt(i-1);
+                char pc = p.charAt(j-1);
+                if(pc == '?' ||  sc==pc){
+                    curr[j] = prev[j-1];
+                }else if(pc == '*'){
+                    curr[j] = (curr[j-1] + prev[j]) > 0 ? 1 : 0;
+                }else{
+                    curr[j] = 0;
+                }
+            }
+            // prev = curr; - reference sharing bug with this line
+            prev = curr;
+        }
+        return prev[pl]==1 ? true : false;
+    }
+}
