@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/wildcard-matching/
 
+// Time Complexity: Exponential
+// Space Complexity: O(S+P)
 class Solution {
     public boolean isMatch(String s, String p) {
         // Recursion - Top Down Approach
@@ -39,6 +41,8 @@ class Solution {
 }
 
 // DP
+// Time Complexity: O(S*P) + O(P*P)
+// Space Complexity: O(S*P) + O(S+P)
 class Solution {
     public boolean isMatch(String s, String p) {
         // Recursion - Top Down Approach
@@ -85,6 +89,8 @@ class Solution {
 }
 
 // Right Shift Indexing
+// Time Complexity: O(S*P) + O(P*P)
+// Space Complexity: O(S*P) + O(S+P)
 class Solution {
     public boolean isMatch(String s, String p) {
         // Recursion - Top Down Approach
@@ -131,6 +137,8 @@ class Solution {
 }
 
 // Tabulation
+// Time Complexity: O(S*P) + O(P*P)
+// Space Complexity: O(S*P)
 class Solution {
     public boolean isMatch(String s, String p) {
         // Tabulation - Bottom Up Approach
