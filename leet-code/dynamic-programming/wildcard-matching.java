@@ -129,3 +129,41 @@ class Solution {
         return dp[i][j] = 0;
     }
 }
+
+// Tabulation
+class Solution {
+    public boolean isMatch(String s, String p) {
+        // Tabulation - Bottom Up Approach
+        int sl = s.length();
+        int pl = p.length();
+        int[][] dp = new int[sl+1][pl+1];
+        // base case
+        dp[0][0] = 1;
+        for(int j=1;j<=pl;j++){
+            dp[0][j] = 1;
+            for(int k=1;k<=j;k++){
+                if(p.charAt(k-1) != '*'){ // even chars are a wildcard character
+                    dp[0][j] = 0;
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=sl;i++){
+            dp[i][0] = 0;
+        }
+        for(int i=1;i<=sl;i++){
+            for(int j=1;j<=pl;j++){
+                char sc = s.charAt(i-1);
+                char pc = p.charAt(j-1);
+                if(pc == '?' ||  sc==pc){
+                    dp[i][j] = dp[i-1][j-1];
+                }else if(pc == '*'){
+                    dp[i][j] = (dp[i][j-1] + dp[i-1][j]) > 0 ? 1 : 0;
+                }else{
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        return dp[sl][pl]==1 ? true : false;
+    }
+}
