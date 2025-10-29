@@ -116,3 +116,30 @@ class Solution {
         return dp[0][1];
     }
 }
+
+// Space Optimization
+class Solution {
+    public int maxProfit(int[] prices) {
+        // 1. on any day you can either buy/sell or do nothing - 2^n combinations for n days
+        // 2. even if you do multiple buys and sells on same day - only the last odd buy/sell
+        // on that day matters
+        // f(i, buy) = max profit from ith day to n-th day, given buy condition on ith day
+        // Tabulation - Bottom Up Approach
+        // Space Optimization
+        int days = prices.length;
+        int[] dp = new int[2];
+        dp[0] = 0;
+        dp[1] = 0;
+        for(int day=days-1;day>=0;day--) {
+            int[] curr = new int[2];
+            int buy = -prices[day] + dp[0];
+            int notBuy = dp[1];
+            curr[1] = Math.max(buy, notBuy);
+            int sell = prices[day] + dp[1];
+            int notSell = dp[0];
+            curr[0] = Math.max(sell, notSell);
+            dp = curr;
+        }
+        return dp[1];
+    }
+}
