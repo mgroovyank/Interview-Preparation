@@ -22,3 +22,71 @@ class Solution {
         return maxProfit;
     }
 }
+
+// Recursion
+class Solution {
+    public int maxProfit(int[] prices) {
+        // 1. on any day you can either buy/sell or do nothing - 2^n combinations for n days
+        // 2. even if you do multiple buys and sells on same day - only the last odd buy/sell
+        // on that day matters
+        // f(i, buy) = max profit from ith day to n-th day, given buy condition on ith day
+        // Recursion - Top Down Approach
+        int days = prices.length;
+        return maxProfitFromIthDay(prices, 0, true);
+    }
+
+    private int maxProfitFromIthDay(int[] prices, int i, boolean buyFlag){
+        // base case
+        if(i == prices.length){
+            return 0;
+        }
+        if(buyFlag){
+            //buy
+            int buy = -prices[i] + maxProfitFromIthDay(prices, i+1, false);
+            int notBuy = maxProfitFromIthDay(prices, i+1, true);
+            return Math.max(buy, notBuy);
+        }
+        int sell = prices[i] + maxProfitFromIthDay(prices, i+1, true);
+        int notSell = maxProfitFromIthDay(prices, i+1, false);
+        return Math.max(sell, notSell);
+    }
+}
+
+// DP
+// Time Complexity: O(n*2)
+// Space Complexity: O(n*2) + O(n)
+class Solution {
+    public int maxProfit(int[] prices) {
+        // 1. on any day you can either buy/sell or do nothing - 2^n combinations for n days
+        // 2. even if you do multiple buys and sells on same day - only the last odd buy/sell
+        // on that day matters
+        // f(i, buy) = max profit from ith day to n-th day, given buy condition on ith day
+        // Recursion - Top Down Approach
+        // Overlapping subproblems - DP
+        int days = prices.length;
+        int[][] dp = new int[days+1][2];
+        for(int[] d: dp){
+            Arrays.fill(d, Integer.MIN_VALUE);
+        }
+        return maxProfitFromIthDay(prices, 0, 1, dp);
+    }
+
+    private int maxProfitFromIthDay(int[] prices, int i, int buyFlag, int[][] dp){
+        // base case
+        if(i == prices.length){
+            return dp[prices.length][buyFlag] = 0;
+        }
+        if(dp[i][buyFlag] != Integer.MIN_VALUE){
+            return dp[i][buyFlag];
+        }
+        if(buyFlag == 1){
+            //buy
+            int buy = -prices[i] + maxProfitFromIthDay(prices, i+1, 0, dp);
+            int notBuy = maxProfitFromIthDay(prices, i+1, 1, dp);
+            return dp[i][buyFlag] = Math.max(buy, notBuy);
+        }
+        int sell = prices[i] + maxProfitFromIthDay(prices, i+1, 1, dp);
+        int notSell = maxProfitFromIthDay(prices, i+1, 0, dp);
+        return dp[i][buyFlag] = Math.max(sell, notSell);
+    }
+}
