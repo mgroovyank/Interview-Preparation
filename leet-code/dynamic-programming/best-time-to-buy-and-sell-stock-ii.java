@@ -90,3 +90,29 @@ class Solution {
         return dp[i][buyFlag] = Math.max(sell, notSell);
     }
 }
+
+// Tabulation - Bottom Up Approach
+// Time Complexity: O(n*2)
+// Space Complexity: O(n*2)
+class Solution {
+    public int maxProfit(int[] prices) {
+        // 1. on any day you can either buy/sell or do nothing - 2^n combinations for n days
+        // 2. even if you do multiple buys and sells on same day - only the last odd buy/sell
+        // on that day matters
+        // f(i, buy) = max profit from ith day to n-th day, given buy condition on ith day
+        // Tabulation - Bottom Up Approach
+        int days = prices.length;
+        int[][] dp = new int[days+1][2];
+        dp[days-1][0] = 0;
+        dp[days-1][1] = 0;
+        for(int day=days-1;day>=0;day--) {
+            int buy = -prices[day] + dp[day+1][0];
+            int notBuy = dp[day+1][1];
+            dp[day][1] = Math.max(buy, notBuy);
+            int sell = prices[day] + dp[day+1][1];
+            int notSell = dp[day+1][0];
+            dp[day][0] = Math.max(sell, notSell);
+        }
+        return dp[0][1];
+    }
+}
