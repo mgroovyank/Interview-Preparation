@@ -70,4 +70,40 @@ class Solution {
     }
 }
 
+// Tabulation - Bottom Up Approach
+class Solution {
+    public int maxProfit(int[] prices) {
+        // tabulation - Bottom Up Approach
+        int days = prices.length;
+        int[][][] dp = new int[days+1][2][3];
+        // base case
+        for(int buyFlag=0;buyFlag<2;buyFlag++){
+            for(int remainingTxns=0;remainingTxns<3;remainingTxns++){
+                dp[days][buyFlag][remainingTxns] = 0;
+            }
+        }
+        for(int day=0;day<=days;day++){
+            for(int buyFlag=0;buyFlag<2;buyFlag++){
+                dp[day][buyFlag][0] = 0;
+            }
+        }
+        // access states bottom up - reverse of recursion order
+        for(int day=days-1;day>=0;day--){
+            for(int buyFlag=0;buyFlag<2;buyFlag++){
+                for(int remainingTxns=1;remainingTxns<3;remainingTxns++){
+                    if(buyFlag == 1){
+                        int buy = -prices[day] + dp[day+1][0][remainingTxns];
+                        int notBuy = dp[day+1][1][remainingTxns];
+                        dp[day][buyFlag][remainingTxns] = Math.max(buy, notBuy);
+                        continue;
+                    }
+                    int sell = prices[day] + dp[day+1][1][remainingTxns-1];
+                    int notSell = dp[day+1][0][remainingTxns];
+                    dp[day][buyFlag][remainingTxns] = Math.max(sell, notSell);
+                }
+            }
+        }
+        return dp[0][1][2];
+    }
+}
 
