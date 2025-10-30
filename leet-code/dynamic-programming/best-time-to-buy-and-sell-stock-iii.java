@@ -107,3 +107,39 @@ class Solution {
     }
 }
 
+// Space Optimization
+class Solution {
+    public int maxProfit(int[] prices) {
+        // tabulation - Bottom Up Approach
+        int days = prices.length;
+        int[][] after = new int[2][3];
+        // base case
+        for(int buyFlag=0;buyFlag<2;buyFlag++){
+            for(int remainingTxns=0;remainingTxns<3;remainingTxns++){
+                after[buyFlag][remainingTxns] = 0;
+            }
+        }
+        // access states bottom up - reverse of recursion order
+        for(int day=days-1;day>=0;day--){
+            int[][] curr = new int[2][3];
+            curr[0][0] = 0;
+            curr[1][0] = 0;
+            for(int buyFlag=0;buyFlag<2;buyFlag++){
+                for(int remainingTxns=1;remainingTxns<3;remainingTxns++){
+                    if(buyFlag == 1){
+                        int buy = -prices[day] + after[0][remainingTxns];
+                        int notBuy = after[1][remainingTxns];
+                        curr[buyFlag][remainingTxns] = Math.max(buy, notBuy);
+                        continue;
+                    }
+                    int sell = prices[day] + after[1][remainingTxns-1];
+                    int notSell = after[0][remainingTxns];
+                    curr[buyFlag][remainingTxns] = Math.max(sell, notSell);
+                }
+            }
+            after = curr;
+        }
+        return after[1][2];
+    }
+}
+
