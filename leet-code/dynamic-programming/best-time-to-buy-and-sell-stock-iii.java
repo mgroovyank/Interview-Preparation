@@ -169,3 +169,36 @@ class Solution {
     }
 
 }
+
+// DP N*4
+class Solution {
+    public int maxProfit(int[] prices) {
+        // recursion - N*4
+        int days = prices.length;
+        int[][] dp = new int[days+1][4];
+        for(int[] d: dp){
+            Arrays.fill(d, Integer.MIN_VALUE);
+        }
+        return maxProfitFromIthDay(prices, 0, 0, dp);
+    }
+
+    private int maxProfitFromIthDay(int[] prices, int i, int txnNumber, int[][] dp){
+        // base case
+        if(i == prices.length || txnNumber == 4){
+            return 0;
+        }
+        if(dp[i][txnNumber] != Integer.MIN_VALUE){
+            return dp[i][txnNumber];
+        }
+        // even transaction - has to be a buy
+        if(txnNumber%2 == 0){
+            int buy = -prices[i] + maxProfitFromIthDay(prices, i+1, txnNumber+1, dp);
+            int notBuy = maxProfitFromIthDay(prices, i+1, txnNumber, dp);
+            return dp[i][txnNumber] = Math.max(buy, notBuy);
+        }
+        int sell = prices[i] + maxProfitFromIthDay(prices, i+1, txnNumber+1, dp);
+        int notSell = maxProfitFromIthDay(prices, i+1, txnNumber, dp);
+        return dp[i][txnNumber] = Math.max(sell, notSell);
+    }
+
+}
