@@ -28,4 +28,46 @@ class Solution {
     }
 }
 
+// DP
+// Time Complexity: O(n*2*3)
+// Space Complexity: O(n*2*3) + O(n)
+class Solution {
+    public int maxProfit(int[] prices) {
+        // Recursion - Top Down Approach
+        // f(i, buyFlag, remainingTxns) = max Profit from ith day to n-1th day, given buyFlag
+        // for ith day and number of remaining txns you can perform
+        int days = prices.length;
+        int[][][] dp = new int[days+1][2][3];
+        for(int[][] d1: dp){
+            for(int[] d2: d1){
+                Arrays.fill(d2, Integer.MIN_VALUE);
+            }
+        }
+        return maxProfitFromIthDay(prices, 0, 1, 2, dp);
+    }
+
+    private int maxProfitFromIthDay(int[] prices, int i, int buyFlag, int remainingTxns, int[][][] dp){
+        // base case
+        if(i == prices.length){
+            return 0;
+        }
+        if(remainingTxns == 0){
+            return 0;
+        }
+
+        if(dp[i][buyFlag][remainingTxns] != Integer.MIN_VALUE){
+            return dp[i][buyFlag][remainingTxns];
+        }
+
+        if(buyFlag == 1){
+            int buy = -prices[i] + maxProfitFromIthDay(prices, i+1, 0, remainingTxns, dp);
+            int notBuy = maxProfitFromIthDay(prices, i+1, 1, remainingTxns, dp);
+            return dp[i][buyFlag][remainingTxns] = Math.max(buy, notBuy);
+        }
+        int sell = prices[i] + maxProfitFromIthDay(prices, i+1, 1, remainingTxns-1, dp);
+        int notSell = maxProfitFromIthDay(prices, i+1, 0, remainingTxns, dp);
+        return dp[i][buyFlag][remainingTxns] = Math.max(sell, notSell);
+    }
+}
+
 
