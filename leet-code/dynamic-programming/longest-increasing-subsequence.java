@@ -110,3 +110,23 @@ class Solution {
         return dp[0];
     }
 }
+
+// PRINTING LIS
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        // Single Array Approach
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j] < nums[i]){
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                }
+            }
+            ans = Math.max(ans, dp[i]);
+        }
+        return ans;
+    }
+}
