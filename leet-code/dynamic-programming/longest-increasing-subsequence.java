@@ -60,3 +60,26 @@ class Solution {
         return dp[i][prevIdx] = lengthOfLISFromIthIdx(nums, i+1, prevIdx, dp);
     }
 }
+
+// Tabulation
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        // Tabulation - Bottom Up Approach
+        int n = nums.length;
+        int[][] dp = new int[n+1][n+1];
+        // base case
+        for(int j=0;j<=n;j++){
+            dp[n][j] = 0;
+        }
+        for(int i=n-1;i>=0;i--){
+            for(int j=i;j>=0;j--){
+                if(j == 0 || nums[i] > nums[j-1]){
+                    dp[i][j] = Math.max(1 + dp[i+1][i+1], dp[i+1][j]);
+                    continue;
+                }
+                dp[i][j] = dp[i+1][j];
+            }
+        }
+        return dp[0][0];
+    }
+}
