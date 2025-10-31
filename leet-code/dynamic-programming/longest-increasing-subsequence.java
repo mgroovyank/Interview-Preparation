@@ -83,3 +83,30 @@ class Solution {
         return dp[0][0];
     }
 }
+
+// Space Optimized
+Space Complexity : O(N) * 2
+
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        // Tabulation - Bottom Up Approach
+        int n = nums.length;
+        int[] dp = new int[n+1];
+        // base case
+        for(int j=0;j<=n;j++){
+            dp[j] = 0;
+        }
+        for(int i=n-1;i>=0;i--){
+            int[] curr = new int[n+1];
+            for(int j=i;j>=0;j--){
+                if(j == 0 || nums[i] > nums[j-1]){
+                    curr[j] = Math.max(1 + dp[i+1], dp[j]);
+                    continue;
+                }
+                curr[j] = dp[j];
+            }
+            dp = curr;
+        }
+        return dp[0];
+    }
+}
