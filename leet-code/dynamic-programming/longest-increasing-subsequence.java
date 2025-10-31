@@ -130,3 +130,35 @@ class Solution {
         return ans;
     }
 }
+
+// Time Complexity: O(n*logn) - binary search
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        // Single Array Approach
+        int n = nums.length;
+        List<Integer> lis = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            int lb = lowerBound(lis, nums[i]);
+            if(lb == lis.size()){
+                lis.add(nums[i]);
+            }else{
+                lis.set(lb, nums[i]);
+            }
+        }
+        return lis.size();
+    }
+
+    private int lowerBound(List<Integer> lis, int target){
+        int left = 0;
+        int right = lis.size()-1;
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            if(lis.get(mid) >= target){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+}
