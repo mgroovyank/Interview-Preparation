@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/largest-divisible-subset
 
-// Time Complexity: O(n^2)
+// Time Complexity: O(nlogn) + O(n^2)
 // Space Complexity: O(n) * 2
 class Solution {
     public List<Integer> largestDivisibleSubset(int[] nums) {
