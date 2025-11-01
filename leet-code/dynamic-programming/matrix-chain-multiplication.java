@@ -36,3 +36,36 @@ class Solution {
         return dp[i][j] = res;
     }
 }
+
+// Tabulation - Bottom Up Approach
+class Solution {
+    static int matrixMultiplication(int arr[]) {
+        // number of multiplication operations for matrices of size a x b and b x c
+        // = a x b x c
+        //ABCD = (A)(BCD), (AB)(CD), (ABC)(D)
+        //f(arr, i, j) = least number of multiplications to multiply matrices
+        // from ith index to jith index
+        //f(arr, i, j) = f(arr, i, k) + f(arr, k+1, j) + arr[i-1] * arr[k] * arr[j]
+        // Tabulation Approach - only upper half of DP will be filled
+        // Bottom Up - squeeze i to right, j must be greater than i
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        // base case
+        for(int i=0;i<n;i++){
+            dp[i][i] = 0;
+        }
+        for(int i=n-1;i>0;i--){
+            for(int j=i+1;j<n;j++){
+                int res = Integer.MAX_VALUE;
+                for(int k=i;k<j;k++){
+                    int steps = arr[i-1] * arr[k] * arr[j];
+                    steps += dp[i][k] + dp[k+1][j];
+                    res = Math.min(res, steps);
+                }
+                dp[i][j] = res;
+            }
+        }
+        return dp[1][n-1];
+    }
+    
+}
