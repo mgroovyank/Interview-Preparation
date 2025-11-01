@@ -1,4 +1,7 @@
-// Time Complexity: O(n*n)
+// https://www.geeksforgeeks.org/problems/matrix-chain-multiplication0303/1
+
+// Time Complexity: Recursion = Exponential
+// Time Complexity: O(n*n*n)
 // Space Complexity: O(n*n) + O(n)
 class Solution { 
     static int matrixMultiplication(int arr[]) {
