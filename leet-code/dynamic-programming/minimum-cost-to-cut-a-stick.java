@@ -63,3 +63,36 @@ class Solution {
         return dp[i][j] = cost;
     }
 }
+
+// Tabulation
+class Solution {
+    public int minCost(int n, int[] cuts) {
+        // tabulation
+        Arrays.sort(cuts);
+        int numCuts = cuts.length + 2;
+        int[] newCuts = new int[numCuts];
+        for(int i=1;i<numCuts-1;i++){
+            newCuts[i] = cuts[i-1];
+        }
+        newCuts[0] = 0;
+        newCuts[numCuts-1] = n;
+        int[][] dp = new int[numCuts][numCuts];
+        for(int[] d: dp){
+            Arrays.fill(d, 0);
+        }
+        for(int i=numCuts-2;i>=1;i--){
+            for(int j=1;j<=numCuts-2;j++){
+                if(i>j){
+                    continue;
+                }
+                int cost = Integer.MAX_VALUE;
+                for(int k=i;k<=j;k++){
+                    cost = Math.min(cost, newCuts[j+1] - newCuts[i-1] + dp[i][k-1] +
+                        dp[k+1][j]);
+                }
+                dp[i][j] = cost;
+            }
+        }
+        return dp[1][numCuts-2];
+    }
+}
