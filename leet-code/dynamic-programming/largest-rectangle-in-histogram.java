@@ -88,3 +88,27 @@ class Solution {
         return largestRectangle;
     }
 }
+
+// Time Complexity: O(N) + O(N)
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        Deque<Integer> stack = new ArrayDeque<>();
+        int ans = 0;
+        for(int i=0;i<=n;i++){
+            while(!stack.isEmpty() && (i==n || heights[stack.peek()] > heights[i])){
+                // found right smaller element for stack peek
+                int height = heights[stack.peek()];
+                int rs = i;
+                stack.pop();
+                int ls = -1;
+                if(!stack.isEmpty()){
+                    ls = stack.peek();
+                }
+                ans = Math.max(ans, (rs - ls - 1) * height);
+            }
+            stack.push(i);
+        }
+        return ans;
+    }
+}
