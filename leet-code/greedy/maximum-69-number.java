@@ -17,3 +17,20 @@ class Solution {
         return num;
     }
 }
+
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+class Solution {
+    public int maximum69Number (int num) {
+        char[] digits = String.valueOf(num).toCharArray(); // O(N)
+        for(int i=0;i<digits.length;i++){ //O(N)
+            char c = digits[i];
+            if(c == '6'){
+                digits[i] = '9';
+                break;
+            }
+        }
+        return Integer.parseInt(new String(digits)); // O(N)
+    }
+}
