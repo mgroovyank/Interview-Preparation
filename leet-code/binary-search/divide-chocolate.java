@@ -1,4 +1,6 @@
+// https://leetcode.com/problems/divide-chocolate
 // https://www.geeksforgeeks.org/dsa/divide-chocolates/
+// https://www.youtube.com/watch?v=Ppy9lvyMnuc
 
 class Solution {
   public int maximizeSweetness(int[] sweetness, int K){
