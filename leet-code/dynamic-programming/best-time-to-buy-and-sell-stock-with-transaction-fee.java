@@ -119,3 +119,35 @@ class Solution {
         return dp[0][1];
     }
 }
+
+// Space Optimization
+// Time Complexity: O(n*2)
+// Space Complexity: O(n*2)
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        // Recursion - Top Down Approach
+        // Since I know my intial buyFlag=1, I start processing from index=0
+        // f(i, buyFlag) = maxProfitFromIthDay with given buyFlag for ith day
+        // overlapping subproblems - DP
+        // Bottom Up Approach - Tabulation - to remove recursion stack memory
+        // I only dp[i+1] values to calculate dp[i] - so I can do space optimization
+        int n = prices.length;
+        int[] dp = new int[2];
+        // base case
+        dp[0] = 0;
+        dp[1] = 0;
+        for(int i=n-1;i>=0;i--){
+            int[] curr = new int[2];
+            int buy = -prices[i] + dp[0];
+            int notBuy = dp[1];
+            // if buy is allowed that means, I don't have any stock held, that means I can't sell.
+            curr[1] = Math.max(buy, notBuy);
+
+            int sell = prices[i] - fee + dp[1];
+            int notSell = dp[0];
+            curr[0] = Math.max(sell, notSell);
+            dp = curr;
+        }
+        return dp[1];
+    }
+}
