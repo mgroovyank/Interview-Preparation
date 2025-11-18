@@ -2,7 +2,9 @@
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         // Recursion - Top Down Approach
+        // f(i,j) = unique paths from (i,j) to reach m-1,n-1
         // f(i,j) = f(i-1, j) * 1 + f(i, j-1) * 1
+        // overlapping subproblems - memoize recursion function over dynamic parametes
         if(obstacleGrid[0][0] == 1){
             return 0;
         }
