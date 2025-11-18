@@ -162,3 +162,39 @@ class Solution {
         return ans;
     }
 }
+
+// Recursion from different starting Idx
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // pick/not pick - recursion - top down approach
+        // f(i, amount) = fewest number of coins from ith index to make amount
+        // f(i, amount) = Math.min(1 + f(i, amount - coins[i]), f(i+1, amount))
+        int ans = fewestCoinsFromIthIdxToMakeAmount(coins, 0, amount);
+        if(ans == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ans;
+    }
+
+    private int fewestCoinsFromIthIdxToMakeAmount(int[] coins, int i, int amount){
+        // base case
+        if(i == coins.length){
+            if(amount == 0){
+                return 0;
+            }
+            return Integer.MAX_VALUE;
+        }
+        // do stuff on idx
+        // should pick only if amount-coins[i] >=0
+        int pick = Integer.MAX_VALUE;
+        if(amount - coins[i] >= 0){
+            pick = fewestCoinsFromIthIdxToMakeAmount(coins, i, amount - coins[i]);
+            if(pick != Integer.MAX_VALUE){
+                pick++;
+            }
+        }
+        int notPick = fewestCoinsFromIthIdxToMakeAmount(coins, i+1, amount);
+        int fewestCoins = Math.min(pick, notPick);
+        return fewestCoins;
+    }
+}
