@@ -358,3 +358,59 @@ class Solution {
         return dp[i][amount] = fewestCoins;
     }
 }
+
+// Even more space optimization
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        // pick/not pick - recursion - top down approach
+        // f(i, amount) = fewest number of coins from ith index to make amount
+        // f(i, amount) = Math.min(1 + f(i, amount - coins[i]), f(i+1, amount))
+        // overlapping subproblems - DP
+        // to remove recursion stack memory - I can do tabulation - Bottom Up Approach
+        // Space optimization - need only dp[i-1] and dp[i] - I'm calculation in the current loop itself
+
+        int n = coins.length;
+        int[] curr = new int[amount+1];
+        // base case
+        curr[0] = 0;
+        for(int a=1;a<=amount;a++){
+            curr[a] = Integer.MAX_VALUE;
+        }
+        // loop over all possible recusion indices
+        // do stuff
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<=amount;j++){
+                int pick = Integer.MAX_VALUE;
+                if(j - coins[i] >= 0){
+                    pick = curr[j - coins[i]];
+                    if(pick != Integer.MAX_VALUE){
+                        pick++;
+                    }
+                }
+                int notPick = curr[j];
+                int fewestCoins = Math.min(pick, notPick);
+                curr[j] = fewestCoins;
+            }
+        }
+        int ans = curr[amount];
+        if(ans == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ans;
+    }
+
+    private int fewestCoinsFromIthIdxToMakeAmount(int[] coins, int i, int amount, int[][] dp){
+        // do stuff on idx
+        // should pick only if amount-coins[i] >=0
+        int pick = Integer.MAX_VALUE;
+        if(amount - coins[i] >= 0){
+            pick = fewestCoinsFromIthIdxToMakeAmount(coins, i, amount - coins[i], dp);
+            if(pick != Integer.MAX_VALUE){
+                pick++;
+            }
+        }
+        int notPick = fewestCoinsFromIthIdxToMakeAmount(coins, i+1, amount, dp);
+        int fewestCoins = Math.min(pick, notPick);
+        return dp[i][amount] = fewestCoins;
+    }
+}
