@@ -89,3 +89,39 @@ class Solution {
         return Math.min(dp[0], dp[1]);
     }
 }
+
+// Space Opitmized
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        // base case for recursion would be when I'm already at top = nth index
+        // f(i) = min cost to reach nth index for ith index
+        // f(i) = cost[i] + Math.min(f(i+1), f(i+2))
+        // recursion tree shows lots of  overlapping subproblems
+        // DP
+        // DP can be converted to Tabulation approach - Bottom Up Approach - start from base case
+        // I can further space optimize the solution as only dp[i+1] and dp[i+2] values are required at any point of time
+        int n = cost.length;
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, -1);
+        // base case
+        int iPlus1 = Integer.MAX_VALUE;
+        int iPlus2 = Integer.MAX_VALUE;
+        iPlus1 = 0;
+        for(int i=n-1;i>=0;i--){
+            // do everything on index
+            int climb1 = Integer.MAX_VALUE;
+            int climb2 = Integer.MAX_VALUE;
+            if(i+1 <=n){
+                climb1 = cost[i] + iPlus1;
+            }
+            if(i+2 <= n){
+                climb2 = cost[i] + iPlus2;
+            }
+            iPlus2 = iPlus1;
+            iPlus1 = Math.min(climb1, climb2);
+        }
+        return Math.min(iPlus1, iPlus2);
+    }
+}
