@@ -27,6 +27,8 @@ class Solution {
 }
 
 // DP
+// Time Complexity: O(n)
+// Space Complexity: O(n) + O(n) - recursion stack + dp
 class Solution {
     public int minCostClimbingStairs(int[] cost) {
         // base case for recursion would be when I'm already at top = nth index
@@ -53,5 +55,37 @@ class Solution {
         return dp[i] = cost[i] + Math.min(
             minCostClimbingStairsFromIthIdx(cost, i+1, dp),
             minCostClimbingStairsFromIthIdx(cost, i+2, dp));
+    }
+}
+
+// Tabulation - Bottom Up Approach
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        // base case for recursion would be when I'm already at top = nth index
+        // f(i) = min cost to reach nth index for ith index
+        // f(i) = cost[i] + Math.min(f(i+1), f(i+2))
+        // recursion tree shows lots of  overlapping subproblems
+        // DP
+        // DP can be converted to Tabulation approach - Bottom Up Approach - start from base case
+        int n = cost.length;
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, -1);
+        // base case
+        dp[n] = 0;
+        for(int i=n-1;i>=0;i--){
+            // do everything on index
+            int climb1 = Integer.MAX_VALUE;
+            int climb2 = Integer.MAX_VALUE;
+            if(i+1 <=n){
+                climb1 = cost[i] + dp[i+1];
+            }
+            if(i+2 <= n){
+                climb2 = cost[i] + dp[i+2];
+            }
+            dp[i] = Math.min(climb1, climb2);
+        }
+        return Math.min(dp[0], dp[1]);
     }
 }
