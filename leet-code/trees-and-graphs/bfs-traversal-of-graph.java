@@ -1,6 +1,6 @@
 // https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
 
-// Time Complexity: O(V*E)
+// Time Complexity: O(V*E) each node finds degrees of itself
 // Space Complexity: O(V) + O(V) queue + visited array
 class Solution {
     public ArrayList<Integer> bfs(ArrayList<ArrayList<Integer>> adj) {
