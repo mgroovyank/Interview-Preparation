@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/number-of-provinces/
 
-// Time Complexity: O(V+2*E) // doing dfs on entire graph
+// Time Complexity: due to adjacency matrix: O(N*N) - outer loop in findCircleNum runs once for each node and as part of dfs we check all n nodes
+// if we have adjacency list representation, then O(V+2*E)
 // Space Complexity: O(V) + O(V)
 class Solution {
     public int findCircleNum(int[][] isConnected) {
