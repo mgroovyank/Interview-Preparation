@@ -70,3 +70,60 @@ class Solution {
         return false;
     }
 }
+
+
+// BFS Approach
+class Solution {
+    List<List<Integer>> graph = new ArrayList<>();
+    public boolean isCycle(int V, int[][] edges) {
+        // DFS - cycle means if you start from a node
+        // and then if you visit any already visited node again,
+        // then that means there is a cycle
+
+        // adjacency list representation
+        
+        for(int i=0;i<V;i++){
+            graph.add(new ArrayList<>());
+        }
+
+        for(int[] edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        
+        int[] visited = new int[V];
+        Arrays.fill(visited, 0);
+        for(int v=0;v<V;v++){
+            if(visited[v] == 0){
+                visited[v] = 1;
+                if(dfsAndCheckCycle(v, visited, -1)){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+    
+    private boolean dfsAndCheckCycle(int src, int[] visited, int prev){
+        List<Integer> neighbors = graph.get(src);
+        for(int next: neighbors){
+            if(visited[next] == 0){
+                visited[next] = 1;
+                if(dfsAndCheckCycle(next, visited, src)){
+                    return true;
+                }
+            }else{
+                // if the visited node is prev Node, then it is fine, not a cycle
+                if(next == prev){
+                    continue;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
