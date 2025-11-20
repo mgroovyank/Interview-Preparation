@@ -2,6 +2,10 @@
 
 // Time Complexity: O(V + 2*E), V=m*n, E=m*n*4
 // Space Complexity: O(V) + O(m*n)
+// 1. If I take all rotten oranges and put them in queue
+// 2. Now process all of them, and insert their neighboring fresh oranges into queue
+// 3. at the end of this one second has passed
+// 4. finally after queue is empty, still if grid has any fresh oranges left return -1 else return time
 class Solution {
     public int orangesRotting(int[][] grid) {
         // BFS way to rot will give minimum time to rot all
