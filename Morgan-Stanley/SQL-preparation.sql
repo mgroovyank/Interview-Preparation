@@ -18,7 +18,7 @@ select e.employee_id, mgr.employee_id, mgr.employee_name from employees e
 left outer JOIN employees mgr
 on e.manager_id = mgr.employee_id;
 
-select c.customer_name, od.order_amount, od.payment_amount from customers c
+select c.customer_name, NVL(od.order_amount, 0), NVL(od.payment_amount, 0) from customers c
 left outer join 
 (
     select o.customer_id, sum(o.order_amount) as order_amount,
