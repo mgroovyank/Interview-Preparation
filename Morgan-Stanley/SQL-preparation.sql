@@ -37,6 +37,8 @@ on o.order_id=p.order_id
 where EXTRACT(YEAR FROM o.order_date) = 2023
 group by c.customer_name;
 
+-- MINUS works on set of rows, so you don't need to add DISTINCT here. If you add DISTINCT, it introduces one more operation and might actually make
+-- query performance worse.
 select book_id from books b
 minus
 select book_id from borrowed where
