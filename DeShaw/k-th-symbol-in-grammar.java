@@ -34,6 +34,14 @@ class Solution {
              -> also use same logic to determine digit at current ith index as used in recursion
         -> THROWS OUT OF MEMORY ERROR as max K= 434991989 * 4 bytes(int) ~ 1.75GB
         -> JVM doesn't have that much heap size 
+
+        -> O(1) space approach
+           -> From recursion you know the path
+           -> at each step in path, either bit flip will happen or it will not happen
+           -> if you start from result(root)=0, and then iterate as per the path by modifying k
+              at each row as per recursion.
+            -> then finally whatever result is, that would be the answer.
+            -> as result is determined by how many times bit flip happens.   
      */
 
     
@@ -82,4 +90,21 @@ public int kthGrammar(int n, int k) {
         return result[k];
     }
 
+}
+
+// Iterative approach
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+public int kthGrammar(int n, int k) {
+    int result = 0;
+    while(n>1){
+        if(k%2 == 0){
+            k = k/2;
+            result = 1 - result;
+        }else{
+            k = (k-1)/2 + 1;
+        }
+        n--;
+    }
+    return result;
 }
