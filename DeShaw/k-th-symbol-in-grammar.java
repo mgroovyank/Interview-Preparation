@@ -18,12 +18,14 @@ class Solution {
     2. base cases:
        -> kthGrammar(1, 1) = 1
        -> kthGrammar(2, 1) = 0 and kthGrammar(2, 2) = 0
-     */
 
     3. Recursion
        -> Time Complexity: O(N)
           -> not exponential because each call to (n,k) makes exactly one recursive call to (n-1, prevK)
-       -> Space Complexity: O(N)     
+       -> Space Complexity: O(N) 
+     */
+
+    
     public int kthGrammar(int n, int k) {
         if(n == 1 && k==1){
             return 0;
