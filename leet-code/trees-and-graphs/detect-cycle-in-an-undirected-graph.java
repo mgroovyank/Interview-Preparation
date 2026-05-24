@@ -7,7 +7,6 @@ class Solution {
     public boolean isCycle(int V, int[][] edges) {
         // BFS - once you fix a starting node, all the other nodes are assigned levels
         // multiple nodes belong to same level
-        // this means nodes at same level will have same previous Node
         // if from my current node, I can vist the neighboring nodes,
         // but the neighboring node is already visited and since from current node,
         // I'm trying to visit it for the first time(as I process every node only once)
