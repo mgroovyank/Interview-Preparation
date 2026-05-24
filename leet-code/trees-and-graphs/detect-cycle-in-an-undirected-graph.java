@@ -1,6 +1,6 @@
 // https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
 
-// Time Complexity: O(V + 2*E)
+// Time Complexity: O(V + 2*E) ~ Total Work (Vertex Work + Edge Work)
 // Space Complexity: O(V) + O(V)
 class Solution {
     List<List<Integer>> graph = new ArrayList<>();
