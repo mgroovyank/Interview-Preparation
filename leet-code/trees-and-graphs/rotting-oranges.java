@@ -61,3 +61,63 @@ class Solution {
         return time;
     }
 }
+
+
+//WRONG APPROACH
+// WON'T WORK as all rotten oranges at beginning should be considered at level 0
+class Solution {
+    /**
+    1. Impossible scenario - when there are no rotten oranges in beginning, or they are not able to reach
+       all fresh orannges to rot them.
+    2. BFS
+      -> Start from the first unvisited rotten orange
+      -> do a BFS from there and return number of levels traversed.
+      -> Number of levels = number of minutes
+      -> Find the next unvisited rotten orange and perform the same BFS
+      -> Once there is no unvisited rotten orange, that means whatever can be rotten has been rotten.
+      -> even now if there is a fresh orange left, then return -1;
+     */
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n= grid[0].length;
+        int[][] visited = new int[m][n];
+        int time = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 2 && visited[i][j]==0){
+                    int currTime = bfs(grid, i, j, visited);
+                    time = Math.max(time, currTime);
+                }
+            }
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if((visited[i][j] == 0) && (grid[i][j] == 1)){
+                    return -1;
+                }
+            }
+        }
+        return time;
+    }
+
+    private int bfs(int[][] grid, int si, int sj, int[][] visited){
+        int levels = 0;
+        Queue<List<Integer>> q = new ArrayDeque<>();
+        visited[si][sj] = 1;
+        q.add(List.of(si, sj));
+        while(!q.isEmpty()){
+            List<Integer> l = q.remove();
+            int[][] next = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+            for(int i=0;i<4;i++){
+                int nextI = l.get(0) + next[i][0];
+                int nextJ = l.get(1) + next[i][1];
+                if(nextI>=0 && nextI<grid.length && nextJ>=0 && nextJ<grid[0].length && (visited[nextI][nextJ]==0) && (grid[nextI][nextJ]==1)){
+                    q.add(List.of(nextI, nextJ));
+                    visited[nextI][nextJ] = 1;
+                }
+            }
+            levels++;
+        }
+        return levels;
+    }
+}
