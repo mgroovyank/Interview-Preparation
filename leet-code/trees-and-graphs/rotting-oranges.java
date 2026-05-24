@@ -121,3 +121,7 @@ class Solution {
         return levels;
     }
 }
+
+// DFS Based Approach
+// So basically if I'm using DFS, for each rotten orange, I can keep the minimum time it takes for it to rot.
+// As it might rot via different DFS paths. And then finally choose the maximum time among all the rotten oranges time as my answer.
