@@ -71,7 +71,7 @@ class Solution {
 }
 
 
-// BFS Approach
+// DFS Approach
 class Solution {
     List<List<Integer>> graph = new ArrayList<>();
     public boolean isCycle(int V, int[][] edges) {
