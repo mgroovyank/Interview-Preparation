@@ -58,3 +58,54 @@ class Solution {
         return true;
     }
 }
+
+
+// DFS BASED SOLUTION
+class Solution {
+    /**
+    1. Just do a DFS traversal and you visit each node only once.
+    2. Make sure that when you visit a node you assign it a set. Assign it a set which is inverse of set
+       you assigned to previous node you visited. For this you can just assign all the neighbors
+       of a node the inverse color of current node.
+    3. When you reach a node which is already colored, but the color that you are trying to assign
+    is a conflicting color. That means, the graph is not bipartite.   
+
+     */
+    public boolean isBipartite(int[][] graph) {
+        int v = graph.length;
+        int[] assignedSet = new int[v]; // 0 or 1
+        Arrays.fill(assignedSet, -1);
+
+        // loop over nodes which are not assigned a set.
+        for(int i=0;i<v;i++){
+            if(assignedSet[i] == -1){
+                assignedSet[i] = 0;
+                if(!dfsAndCheckBipartite(graph, i, assignedSet)){ // traverse a component
+                    return false;
+                } 
+            }
+        }
+        return true;
+    }
+
+    private boolean dfsAndCheckBipartite(int[][] graph, int currNode, int[] assignedSet){
+        int[] neighbors = graph[currNode];
+        int currSet = assignedSet[currNode];
+        for(int neighbor: neighbors){
+            // if not assigned set
+            if(assignedSet[neighbor] == -1){
+              assignedSet[neighbor] = 1 - currSet;
+              if(!dfsAndCheckBipartite(graph, neighbor, assignedSet)){
+                return false;
+              }  
+            }
+            // if already assigned set and set is conflicting
+            if(assignedSet[neighbor] !=-1 && currSet==assignedSet[neighbor]){
+                return false;
+            }
+            // if already assigned set and not conflicting
+            // pass
+        }
+        return true;
+    }
+}
