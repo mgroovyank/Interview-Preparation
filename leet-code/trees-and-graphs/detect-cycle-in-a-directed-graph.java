@@ -8,7 +8,7 @@ class Solution {
      * you might not be able to go backwards as "the edge is directed", so the cycle is not completed.
      * 2. So, for cycle is really exist, the visited node should be on the same path.
      * 3. So we need a way to keep track if the already visited is on the same path as current path.
-     * 4. So during DFS, each node that you visit, you assign it to current path.
+     * 4. So during DFS, each node that you visit, you assign it to current path(PATH ~ RECURSION PATH is also a way to look at it).
      * 5. When does the path change?
      *    -> Cycle is formed when you encounter a node twice on the same path.
      *    -> when you visit a node, you try to process its neighbors.
