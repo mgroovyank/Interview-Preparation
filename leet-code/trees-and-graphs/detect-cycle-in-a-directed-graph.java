@@ -84,3 +84,34 @@ class Solution {
         return false;
     }
 }
+
+
+// BFS BASED APPROACH - DOESN'T WORK
+    class Solution {
+    /**
+     * BFS Based Approach
+     * 1. When we try to do BFS, we visit nodes level by level.
+     * 2. If we revisit an already visited node, in case of undirected graph, that's a cycle.
+     * 3. But in case of a directed graph, it is not necessarily a cycle as edges are
+     *    directed.
+     * 4. So if we are doing BFS, in case we revisit a node at same level as it was previously
+     *    visited, then that is not a cycle.
+     * 5. This is because at same  L, if you think from coming from level L-1, then first
+     *    time when we visited that node, the edge was from L-1 to L.
+     * 6. Now next time, when we revisit it, the edge again is from L-1 to L. So
+     *    both the edges are pointing towards each other. So there is no path for a cycle.
+     * 7. But when we revisit a node at a level different from previously visited level,
+     *    then that previously visited level is different smaller than current visit level,
+     *    so from lower level we always have path to higher level nodes. That means there
+     *    is a cycle.
+     * 8 . THIS LOGIC DOESN'T WORK. Let's say you visit a node at level 2, then you are
+     *     at level 4, from level 4 you are again able to revisit that node. But it can also happen
+     *     that the node at level 2, might not even have an outgoing edge to level 3. So it
+     *     can't again come to level 4 to form a cycle.
+     * 
+     * */
+    public boolean isCyclic(int V, int[][] edges) {
+        // code here
+        
+    }
+}
