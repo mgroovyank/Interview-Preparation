@@ -6,7 +6,13 @@ class Solution {
     1. All terminal nodes are safe nodes.
     2. If a node is connected to only safe nodes, then that node is also safe.
     3. If any of the connected nodes from a node is unsafe, that node is also unsafe.
-    4. So when we do DFS, for each node, if none of the neighbors is unsafe, then mark that node as safe.        
+    4. So when we do DFS, for each node, if none of the neighbors is unsafe, then mark that node as safe. 
+    5. When you revisit a node, it might already marked as safe. And you mark a node as safe only when is is fully processed. A fully processed node means
+       it is not in the current recursion stack(not on current path).
+       -> if it is marked as unsafe, then that can be because it is not fully processed or it was fully processed and then marked unsafe.
+       -> If it is not fully processed but visited, that means it is on current path. That means there is a cycle. So no termination. So current node is unsafe.
+       -> If is fully processed and marked unsafe, then the current node is also unsafe.
+       -> So if a node is revisited and not marked as safe, then surely the current node is unsafe.
      */
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int v = graph.length;
@@ -32,7 +38,7 @@ class Solution {
         int[] neighbors = graph[currNode];
         for(int neighbor: neighbors){
             if(visited[neighbor] == 1){
-                if(safe[neighbor] == 1){
+                if(safe[neighbor] == 1){ // a node is marked as safe
                     continue;
                 }else{
                     // nodes by default are unsafe, so no need to mark here
