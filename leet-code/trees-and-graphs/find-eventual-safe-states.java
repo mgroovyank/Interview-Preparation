@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/find-eventual-safe-states/
+
 class Solution {
     /**
     1. When do you reach end of path?
@@ -15,7 +16,13 @@ class Solution {
           can never be safe nodes.
        -> So you should just pick up first unvisited node, perform Dfs, and at any node where you detect
           cycle, just put it as unsafe.  
-       -> Mark a node as safe only when you don't detect a cycle on any of the paths.             
+       -> Mark a node as safe only when you don't detect a cycle on any of the paths. 
+       -> When you detect a cycle on a path, just simply return, don't remove that node from the 
+          current path. As the other paths starting from that node, you haven't still visited. 
+          Any unvisited node that you visit next, might fall on the remaining paths that
+          start from that node on which you did DFS. So keep that node on the currentPath.
+        -> If you visit the next unvisited node, that doesn't fall on any of the paths starting 
+        from that node, it is still fine to have that node on the current path as it doesn't interfere.              
        -> When the node was not already visited, but doesn't have any outgoing edges to further 
           add to path. That is a terminal node.
      */
@@ -32,9 +39,9 @@ class Solution {
                 visited[i] = 1;
                 currentPathFlag[i] = 1;
                 boolean isCycle = dfsAndDetectCycle(graph, i, visited, currentPathFlag);
-                currentPathFlag[i] = 0;
                 if(!isCycle){
                     safeNodes.add(i);
+                    currentPathFlag[i] = 0;
                 }
             }
         }
@@ -51,8 +58,8 @@ class Solution {
                 visited[neighbor] = 1;
                 currentPathFlag[neighbor] = 1;
                 boolean isCycle = dfsAndDetectCycle(graph, neighbor, visited, currentPathFlag);
-                currentPathFlag[neighbor] = 0;
                 if(!isCycle){
+                    currentPathFlag[neighbor] = 0;
                     safeNodes.add(neighbor);
                 }else {
                     return true;
