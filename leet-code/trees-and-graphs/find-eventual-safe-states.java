@@ -1,5 +1,58 @@
 // https://leetcode.com/problems/find-eventual-safe-states/
 
+
+class Solution {
+    /**
+    1. All terminal nodes are safe nodes.
+    2. If a node is connected to only safe nodes, then that node is also safe.
+    3. If any of the connected nodes from a node is unsafe, that node is also unsafe.
+    4. So when we do DFS, for each node, if none of the neighbors is unsafe, then mark that node as safe.        
+     */
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int v = graph.length;
+        int[] visited = new int[v];
+        int[] safe = new int[v];
+        for(int i=0;i<v;i++){
+            if(visited[i] == 0){
+                visited[i] = 1;
+                dfs(graph, i, visited, safe);
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for(int i=0;i<v;i++){
+            if(safe[i] == 1){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    private boolean dfs(int[][] graph, int currNode, int[] visited, int[] safe){
+        int[] neighbors = graph[currNode];
+        for(int neighbor: neighbors){
+            if(visited[neighbor] == 1){
+                if(safe[neighbor] == 1){
+                    continue;
+                }else{
+                    // nodes by default are unsafe, so no need to mark here
+                    return false;
+                }
+            }else {
+                visited[neighbor] = 1;
+                boolean isSafe = dfs(graph, neighbor, visited, safe);
+                if(!isSafe){
+                    return false;
+                }else{
+                    continue;
+                }
+            }
+        }
+        safe[currNode] = 1;
+        return true;
+    }
+}
+
 class Solution {
     /**
     1. When do you reach end of path?
