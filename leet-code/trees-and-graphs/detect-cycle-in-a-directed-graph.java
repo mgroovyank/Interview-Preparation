@@ -115,3 +115,54 @@ class Solution {
         
     }
 }
+
+
+// KAHN'S ALGORITHM
+class Solution {
+    /**
+     * BFS based approach-  Kahn's Algorithm
+     * 1. Kahn's algorithm is valid only for Directed Acyclic graphs, if
+     * a graph has a cycle, you wouldn not be able to visit all the
+     * nodes using Kahn's algorithm.
+     * 2. So that means if after applying kahn's algorithm to a graph,
+     * all nodes are not visited. => Graph is Cyclic.
+     */
+    public boolean isCyclic(int V, int[][] edges) {
+        List<List<Integer>> graph = new ArrayList<>();
+        
+        for(int i=0;i<V;i++){
+            graph.add(new ArrayList<>());
+        }
+        
+        int[] indegree = new int[V];
+        
+        for(int[] edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+            graph.get(u).add(v);
+            indegree[v]++;
+        }
+        
+        Deque<Integer> q = new ArrayDeque<>();
+        for(int i=0;i<V;i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        int counter = 0;
+        while(!q.isEmpty()){
+            int currNode = q.remove();
+            counter++;
+            List<Integer> neighbors = graph.get(currNode);
+            for(int neighbor: neighbors){
+                indegree[neighbor]--;
+                if(indegree[neighbor] == 0){
+                    q.add(neighbor);
+                }
+            }
+        }
+        
+        return counter!=V;
+        
+    }
+}
