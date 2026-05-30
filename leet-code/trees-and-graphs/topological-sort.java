@@ -67,3 +67,55 @@ class Solution {
         }
     }
 }
+
+
+class Solution {
+    /*
+    // KAHN'S ALGORITHM - BFS
+    1. Since the graph is acylic there is atleast one node with indegree=0
+    */
+    
+    ArrayList<Integer> result = new ArrayList<>();
+    
+    public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i=0;i< V;i++){
+            graph.add(new ArrayList<>());
+        }
+        
+        int[] indegree = new int[V];
+
+        for(int[] edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+            graph.get(u).add(v);
+            indegree[v]++;
+        }
+        
+        Deque<Integer> q = new ArrayDeque<>();
+        // add nodes with indegree zero into queue
+        for(int i=0;i<indegree.length;i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int currNode = q.remove();
+            result.add(currNode);
+            List<Integer> neighbors = graph.get(currNode);
+            for(int neighbor: neighbors){
+                if(indegree[neighbor] == 0){
+                    continue;
+                }
+                if(--indegree[neighbor] == 0){
+                    q.add(neighbor);
+                }
+            }
+        }
+        
+        return result;
+
+    }
+    
+}
