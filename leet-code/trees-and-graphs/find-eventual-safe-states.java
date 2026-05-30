@@ -134,3 +134,61 @@ class Solution {
         return false;
     }
 }
+
+// TOPOLOGICAL SORT
+class Solution {
+    /**
+    1. A node is unsafe it is part of a cycle or connected to a cycle
+    2. Topological Sort
+    3. For topological sort to apply, we need to start with nodes whose indegree=0. Also these nodes must be safe nodes.
+    4. So we need terminal nodes to become our initial nodes with indegree=0;
+    5. but terminal nodes have outdegree=0, so if we flip all the edges direction in graph, then
+       terminal nodes will have indegree=0 and they can become input for topological sort.
+    6. Now when we process only safe nodes, then we reduce indegree of nodes having incoming edges from safe nodes. If
+       a node's total indegree gets reduced to zero, that means that node is only having outgoing edges(in original graph)
+       to safe nodes. That means that node is a safe node.
+    7. This way topological sort can be used to find safe nodes.      
+     */
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        List<List<Integer>> newGraph = new ArrayList<>();
+        int V = graph.length;
+        for(int i=0;i<V;i++){
+            newGraph.add(new ArrayList<>());
+        }
+
+        int[] indegree = new int[V];
+
+        // build reverse graph
+        for(int u=0;u<V;u++){
+            for(int v: graph[u]){
+                newGraph.get(v).add(u);
+                indegree[u]++;
+            }
+        }
+
+        List<Integer> safeNodes = new ArrayList<>();
+
+        Deque<Integer> q = new ArrayDeque<>();
+        for(int i=0;i<V;i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+
+        while(!q.isEmpty()){
+            int currNode = q.remove();
+            safeNodes.add(currNode);
+            List<Integer> neighbors = newGraph.get(currNode);
+            for(int neighbor: neighbors){
+                indegree[neighbor]--;
+                if(indegree[neighbor] == 0){
+                    q.add(neighbor);
+                }
+            }
+        }
+
+        Collections.sort(safeNodes);
+        return safeNodes;
+        
+    }
+}
