@@ -72,7 +72,18 @@ class Solution {
 class Solution {
     /*
     // KAHN'S ALGORITHM - BFS
-    1. Since the graph is acylic there is atleast one node with indegree=0
+    1. Since the graph is acylic there is atleast one node with indegree=0.
+    2. So BFS actually does make more sense than DFS here, but if you just
+       pick the first unvisited node as your starting point and keep the sort
+       order same as order of BFS traversal, there can be cases where
+       this might go wrong.
+    3. So the good idea here is to pick those nodes as your starting point 
+       those don't have any incoming edges, that means, nothing comes before them.
+    4. So everytime when an incoming edge to a node is processed, that means
+       one of the parent of that node is getting processed.
+    5. When all the parents get processed, the indegree would becoming zero,
+       and now it is guaranteed that this node's parents will come before this node
+       in my final answer.
     */
     
     ArrayList<Integer> result = new ArrayList<>();
