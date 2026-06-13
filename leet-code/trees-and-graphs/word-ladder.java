@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/word-ladder/
 
+// Time complexity: O(N * word length * 26 * O(1)/O(logN))
 class Solution {
     /**
     1. At any point, i can try changing each character in the word to any of the a-z chars
@@ -25,6 +26,7 @@ class Solution {
             if(curr.s.equals(endWord)){
                 return curr.dist;
             }
+            // N * word length * 26 * O(1)/O(logN)
             for(int i=0;i<curr.s.length();i++){
                 StringBuilder temp = new StringBuilder(curr.s);
                 for(int j=0;j<26;j++){
