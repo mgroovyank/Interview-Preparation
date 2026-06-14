@@ -2,7 +2,7 @@
 
 // DOES NOT WORK WITH NEGATIVE WEIGHTS
 
-// Time Complexity:
+// Time Complexity: O(ElogV)
 // Space Complexity: O(V*Number of edges)
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
@@ -60,6 +60,7 @@ class Solution {
 }
 
 // Using Tree Set - Slight Optimization
+// Time Complexity: Time Complexity: O(ElogV)
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
         List<List<NodeWeight>> graph = new ArrayList<>();
