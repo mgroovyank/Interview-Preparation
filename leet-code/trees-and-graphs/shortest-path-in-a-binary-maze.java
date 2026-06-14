@@ -49,3 +49,48 @@ class Solution {
     }
     
 }
+
+// using Queue
+class Solution {
+    public int shortestPath(int[][] mat, int[] src, int[] dest) {
+        if(mat[src[0]][src[1]] == 0){
+            return -1;
+        }
+        
+        int n = mat.length;
+        int m = mat[0].length;
+        int[][] dist = new int[n][m];
+        for(int[] temp: dist){
+            Arrays.fill(temp, Integer.MAX_VALUE);
+        }
+        
+        
+        Deque<List<Integer>> q = new ArrayDeque<>();
+        q.add(List.of(src[0], src[1], 0));
+        dist[src[0]][src[1]] = 0;
+        
+        while(!q.isEmpty()){
+            List<Integer> curr = q.remove();
+            int currI = curr.get(0);
+            int currJ = curr.get(1);
+            int currDist = curr.get(2);
+            
+            int[][] delta = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+            for(int[] del: delta){
+                int nextI = currI + del[0];
+                int nextJ = currJ + del[1];
+                if(nextI>=0 && nextI<mat.length && nextJ>=0 && nextJ<mat[0].length && mat[nextI][nextJ]==1){
+                    int nextDist = currDist + 1;
+                    if(nextDist < dist[nextI][nextJ]){
+                        dist[nextI][nextJ] = nextDist;
+                        q.add(List.of(nextI, nextJ, nextDist));
+                    }
+                }
+            }
+        }
+        
+        return dist[dest[0]][dest[1]] == Integer.MAX_VALUE ? -1 : dist[dest[0]][dest[1]];
+        
+    }
+    
+}
