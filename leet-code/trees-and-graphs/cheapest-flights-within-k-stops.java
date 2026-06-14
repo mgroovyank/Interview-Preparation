@@ -77,3 +77,60 @@ class Solution {
 
 // We don't even need a priority queue here as from one level to another stops are always decreased by 1 for all next cities, so they
 // all are equal candidates for exploration
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Flight>> connectivity = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            connectivity.add(new ArrayList<>());
+        }
+        for(int[] flight: flights){
+            int from = flight[0];
+            int to = flight[1];
+            int price = flight[2];
+            connectivity.get(from).add(new Flight(to, price));
+        }
+
+        int[] cheapest = new int[n];
+        Arrays.fill(cheapest, Integer.MAX_VALUE);
+        Deque<Flight> pq = new ArrayDeque<>();
+        pq.add(new Flight(src, cheapest[src]=0, k));
+
+        while(!pq.isEmpty()){
+            Flight curr = pq.remove();
+            int currCity = curr.to;
+            int currPrice = curr.price;
+            int availStops = curr.stops;
+
+            List<Flight> nextFlights = connectivity.get(currCity);
+            for(Flight nextFlight: nextFlights){
+                int nextCity = nextFlight.to;
+                int nextPrice = currPrice + nextFlight.price;
+                if(availStops>=0 && nextPrice<=cheapest[nextCity]){
+                    cheapest[nextCity] = nextPrice;
+                    pq.add(new Flight(nextCity, nextPrice, availStops-1));
+                }
+            }
+        }
+
+        return cheapest[dst] == Integer.MAX_VALUE ? - 1 : cheapest[dst];
+
+    }
+
+    class Flight{
+        int to;
+        int price;
+        int stops;
+
+        Flight(int to, int price){
+            this.to = to;
+            this.price = price;
+        }
+
+        Flight(int to, int price, int stops){
+            this.to = to;
+            this.price = price;
+            this.stops = stops;
+        }
+    }
+}
