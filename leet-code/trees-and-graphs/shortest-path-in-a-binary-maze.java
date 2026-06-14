@@ -94,3 +94,56 @@ class Solution {
     }
     
 }
+
+// DFS gives TLE
+
+class Solution {
+    public int shortestPath(int[][] mat, int[] src, int[] dest) {
+        if(mat[src[0]][src[1]] == 0){
+            return -1;
+        }
+        
+        int n = mat.length;
+        int m = mat[0].length;
+        int[][] dist = new int[n][m];
+        int[][] vis = new int[n][m];
+        for(int[] temp: dist){
+            Arrays.fill(temp, Integer.MAX_VALUE);
+        }
+        
+        int ans = shortestPathHelper(mat, src, dest, dist, vis);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+    
+    public int shortestPathHelper(int[][] mat, int[] curr, int[] dest, int[][] dist, int[][] vis){
+        int currI = curr[0];
+        int currJ = curr[1];
+        
+        if(currI == dest[0] && currJ==dest[1]){
+            vis[dest[0]][dest[1]] = 1;
+            return dist[currI][currJ]=0;
+        }
+        
+        if(vis[currI][currJ] == 1){
+            return dist[currI][currJ];
+        }
+        
+        int[][] delta = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        int shortestDist = Integer.MAX_VALUE;
+        for(int[] del: delta){
+            int nextI = currI + del[0];
+            int nextJ = currJ + del[1];
+            if(nextI>=0 && nextI<mat.length && nextJ>=0 && nextJ<mat[0].length && mat[nextI][nextJ]==1){
+                vis[currI][currJ] = 1;
+                shortestDist = Math.min(shortestDist, shortestPathHelper(mat, new int[]{nextI, nextJ}, dest, dist, vis));
+                vis[currI][currJ] = 0;
+            }
+        }
+        if(shortestDist == Integer.MAX_VALUE){
+            return shortestDist;
+        }
+        
+        return dist[currI][currJ] = shortestDist + 1;
+    }
+    
+}
