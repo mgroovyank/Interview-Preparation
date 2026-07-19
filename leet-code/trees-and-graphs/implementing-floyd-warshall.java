@@ -6,6 +6,7 @@ class Solution {
      * Floyd Warshall Algorithm
      * -> Works for negative edge weights
      * -> Works for both directed and undirected graph.
+     * -> If the costing of a node to node (src=target) is negative, that means a negative cycle exists.
      * 
      * 
      * -> We use adjacency matrix representation of the graph.
