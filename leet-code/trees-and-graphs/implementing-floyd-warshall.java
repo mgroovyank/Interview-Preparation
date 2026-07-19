@@ -1,6 +1,7 @@
 // https://www.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1
 
 // Time Complexity: O(V * V * V)
+// Space Complexity: O(V*V)
 class Solution {
     /**
      * Floyd Warshall Algorithm
