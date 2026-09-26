@@ -1,5 +1,10 @@
 // https://leetcode.com/problems/min-cost-to-connect-all-points/description/
 
+// How Prim's algorithm ensures N-1 edges?
+// We visit each node only once, when we visit a node, we visit from a parent - that node edge, that means we process a single
+// incoming edge to each visited node. the first starting we arrive at directly without any parent-that node edge => total
+// N-1 Edges
+
 // Worst case, each node connection to other nodes = N * (N-1) edges
 // Time Complexity: O(E*logE) + O(E*logE)
 // Space Complexity: O(E)
