@@ -1,7 +1,7 @@
 // https://www.geeksforgeeks.org/problems/maximum-stone-removal-1662179442/1
 
 // Time Complexity: O(S)
-// Space Complexity: O(N*M)
+// Space Complexity: O(N + M)
 class Solution {
     // O(N*N*N) Approach - Brute Force Approach
     // Disjoint Set Union Approach
